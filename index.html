@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<col>Ni
+
+<style>
+  input, select, textarea {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 13px;
+  border: 1px solid #ccd5e0;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+textarea {
+  min-height: 85px;
+  resize: vertical;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.primary {
+  width: 100%;
+  background: #155bc0;
+  color: white;
+}
+
+.secondary {
+  width: 100%;
+  background: #e8effa;
+  color: #17477f;
+  margin-top: 10px;
+}
+
+.logout {
+  background: #d93645;
+  color: white;
+  width: 100%;
+}
+
+.hidden { display: none; }
+
+.application {
+  border: 1px solid #e0e6ef;
+  padding: 13px;
+  border-radius: 9px;
+  margin-top: 12px;
+}
+
+.status {
+  font-weight: bold;
+  color: #155bc0;
+}
+
+#message {
+<div class="box">
+  <h3>🔔 Notifications</h3>
+  <div id="notificationBox">
+    <p class="small">No new notifications.</p>
+  </div>
+</div>
+
+  color: #d32f2f;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.success { color: #168447 !important; }
+
+.small {
+  font-size: 13px;
+  color
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h2>Nishan Loan App</h2>
+    <p>Loan Application Portal</p>
+  </div>
+
+  <!-- LOGIN AND REGISTER -->
+  <div class="box" id="authBox">
+
+    <h3 id="authTitle">Login Account</h3>
+
+    <input id="email" type="email"
+      placeholder="Email Address">
+
+    <input id="password" type="password"
+      placeholder="Password">
+
+    <button class="primary" id="loginBtn">
+      Login
+    </button>
+
+    <button class="secondary" id="registerBtn">
+      Create New Account
+    </button>
+
+    <p id="message"></p>
+
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="appBox" class="hidden">
+<div class="box">
+  <h3>✦ Premium Dashboard</h3>
+
+  <div class="application">
+    <p>Total Applications</p>
+    <h2 id="totalCount">0</h2>
+  </div>
+
+  <div class="application">
+    <p>Pending Applications</p>
+    <h2 id="pendingCount">0</h2>
+  </div>
+
+  <div class="application">
+    <p>Approved Applications</p>
+    <h2 id="approvedCount">0</h2>
+  </div>
+
+  <div class="application">
+    <p>Rejected Applications</p>
+    <h2 id="rejectedCount">0</h2>
+  </div>
+</div>
+    <div class="box">
+      <h3>Welcome to Nishan Loan</h3>
+      <p id="userEmail" class="small"></p>
+      <button class="logout" id="logoutBtn">
+        Logout
+      </button>
+    </div>
+
+    <!-- LOAN FORM -->
+    <div class="box">
+
+      <h3>Loan Application Form</h3>
+
+      <label>Full Name</label>
+      <input id="name" type="text"
+        placeholder="Enter your name">
+
+      <label>Phone Number</label>
+      <input id="phone" type="tel"
+        placeholder="Enter phone number">
+
+      <label>Loan Amount (BDT)</label>
+      <input id="amount" type="number"
+        placeholder="Enter amount">
+
+      <label>Loan Duration</label>
+      <select id="duration">
+        <option value="">Select Duration</option>
+        <option value="3 Months">3 Months</option>
+        <option value="6 Months">6 Months</option>
+        <option value="12 Months">12 Months</option>
+        <option value="24 Months">24 Months</option>
+      </select>
+
+      <label>Loan Purpose</label>
+      <textarea id="reason"
+        placeholder="Why do you need this loan?"></textarea>
+
+      <button class="primary" id="submitBtn">
+        Submit Application
+      </button>
+
+      <p id="submitMessage"></p>
+
+    </div>
+
+    <!-- APPLICATION HISTORY -->
+    <div class="box">
+      <h3>My Applications</h3>
+<div class="box">
+  <h3>🔔 Notifications</h3>
+  <div id="notificationBox">
+    <p class="small">No new notifications.</p>
+  </div>
+</div>
+
+      <div id="myApplications">
+        Loading...
+      </div>
+    </div>
+
+  </div>
+
+  <p class="small">
+    Demo application portal. Submission does not guarantee
+    loan approval or payment.
+  </p>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+
+<script>
+
+// FIREBASE CONFIG
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAVWtZwiP7gR6QZWTne0br9R5_dnbgE5qk",
+  authDomain: "planning-with-ai-12481.firebaseapp.com",
+  databaseURL: "https://planning-with-ai-12481-default-rtdb.firebaseio.com",
+  projectId: "planning-with-ai-12481",
+  storageBucket: "planning-with-ai-12481.firebasestorage.app",
+  messagingSenderId: "1064415862580",
+  appId: "1:1064415862580:web:836ee2f4187cff962c8f61"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.database();
+
+const authBox = document.getElementById("authBox");
+const appBox = document.getElementById("appBox");
+const message = document.getElementById("message");
+
+let currentUser = null;
+let applicationsListener = null;
+
+
+// SAFE TEXT
+
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
+}
+
+
+// REGISTER
+
+document.getElementById("registerBtn").onclick =
+async function() {
+
+  message.textContent = "";
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || password.length < 6) {
+    message.textContent =
+      "Email দাও এবং কমপক্ষে ৬ অক্ষরের Password দাও।";
+    return;
+  }
+
+  try {
+    await auth.createUserWithEmailAndPassword(email, password);
+    message.textContent = "Account তৈরি হয়েছে!";
+    message.className = "success";
+  } catch (error) {
+    message.textContent = error.message;
+    message.className = "";
+  }
+};
+
+
+// LOGIN
+
+document.getElementById("loginBtn").onclick =
+async function() {
+
+  message.textContent = "";
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    message.textContent = "Email ও Password দাও।";
+    return;
+  }
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (error) {
+    message.textContent = error.message;
+  }
+};
+
+
+// AUTH STATE
+
+auth.onAuthStateChanged(user => {
+
+  currentUser = user;
+
+  if (user) {
+
+    authBox.classList.add("hidden");
+    appBox.classList.remove("hidden");
+
+    document.getElementById("userEmail").textContent =
+      "Logged in: " + user.email;
+
+    loadApplications(user.uid);
+
+  } else {
+
+    authBox.classList.remove("hidden");
+    appBox.classList.add("hidden");
+
+    document.getElementById("myApplications").innerHTML = "";
+
+    if (applicationsListener) {
+      applicationsListener.off();
+      applicationsListener = null;
+    }
+  }
+
+});
+
+
+// LOGOUT
+
+document.getElementById("logoutBtn").onclick =
+function() {
+  auth.signOut();
+};
+
+
+// SUBMIT LOAN APPLICATION
+
+document.getElementById("submitBtn").onclick =
+async function() {
+
+  const submitMessage =
+    document.getElementById("submitMessage");
+
+  if (!currentUser) {
+    submitMessage.textContent = "আগে Login করো।";
+    return;
+  }
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const amount = Number(document.getElementById("amount").value);
+  const duration = document.getElementById("duration").value;
+  const reason = document.getElementById("reason").value.trim();
+
+  if (!name || !phone || !duration || !reason ||
+      !Number.isFinite(amount)) {
+    submitMessage.textContent = "সব তথ্য পূরণ করো।";
+    return;
+  }
+
+  if (name.length > 80 || phone.length < 10 ||
+      phone.length > 20 || amount <= 0 ||
+      amount > 1000000 || reason.length > 500) {
+    submitMessage.textContent = "তথ্যগুলো সঠিকভাবে দাও।";
+    return;
+  }
+
+  const data = {
+    name: name,
+    phone: phone,
+    amount: amount,
+    duration: duration,
+    reason: reason,
+    status: "Pending",
+    createdAt: Date.now()
+  };
+
+  const submitBtn = document.getElementById("submitBtn");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+
+  try {
+
+    await db.ref("applications/" + currentUser.uid)
+      .push(data);
+
+    submitMessage.textContent =
+      "Application Submitted! Status: Pending";
+
+    submitMessage.className = "success";
+
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("amount").value = "";
+    document.getElementById("duration").value = "";
+    document.getElementById("reason").value = "";
+
+  } catch (error) {
+
+    submitMessage.textContent =
+      "Error: " + error.message;
+
+    submitMessage.className = "";
+
+  } finally {
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Application";
+
+  }
+};
+
+
+// LOAD MY APPLICATIONS
+
+function loadApplications(uid) {
+
+  const list = document.getElementById("myApplications");
+
+  if (applicationsListener) {
+    applicationsListener.off();
+  }
+
+  applicationsListener = db.ref("applications/" + uid);
+
+  applicationsListener.on("value", snapshot => {
+
+    list.innerHTML = "";
+
+    if (!snapshot.exists()) {
+      list.textContent = "এখনো কোনো আবেদন করোনি।";
+      return;
+    }
+
+    snapshot.forEach(item => {
+
+      const app = item.val();
+
+      const card = document.createElement("div");
+      card.className = "application";
+
+      card.innerHTML = `
+        <p><b>Amount:</b> ৳${safe(app.amount)}</p>
+        <p><b>Duration:</b> ${safe(app.duration)}</p>
+        <p><b>Status:</b>
+          <span class="status">${safe(app.status)}</span>
+        </p>
+        <p class="small">Application ID: ${safe(item.key)}</p>
+      `;
+
+      list.prepend(card);
+
+    });
+
+  }, error => {
+
+    list.textContent = "Error: " + error.message;
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
