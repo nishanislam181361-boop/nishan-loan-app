@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nishan Loan - Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+    h2 { color: #123b70; }
+    .box, .application {
+      background: white;
+      padding: 18px;
+      margin: 15px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0001;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+    }
+    button {
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 7px;
+      color: white;
+      margin: 5px 5px 5px 0;
+      cursor: pointer;
+    }
+    .login { background: #175dcc; width: 100%; }
+    .approve { background: #168447; }
+    .reject { background: #d52f3c; }
+    .logout { background: #555; }
+    .status { font-weight: bold; }
+    #message { color: #c62828; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Nishan Loan Admin Panel</h2>
+
+  <div class="box" id="loginBox">
+    <h3>Admin Login</h3>
+    <input id="email" type="email" placeholder="Admin Email">
+    <input id="password" type="password" placeholder="Password">
+    <button class="login" id="loginBtn">Login</button>
+    <p id="message"></p>
+  </div>
+
+  <div id="adminArea" style="display:none">
+    <button class="logout" id="logoutBtn">Logout</button>
+    <h3>Loan Applications</h3>
+    <p id="info">Loading...</p>
+    <div id="applications"></div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAVWtZwiP7gR6QZWTne0br9R5_dnbgE5qk",
+  authDomain: "planning-with-ai-12481.firebaseapp.com",
+  databaseURL: "https://planning-with-ai-12481-default-rtdb.firebaseio.com",
+  projectId: "planning-with-ai-12481",
+  storageBucket: "planning-with-ai-12481.firebasestorage.app",
+  messagingSenderId: "1064415862580",
+  appId: "1:1064415862580:web:836ee2f4187cff962c8f61"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.database();
+
+const ADMIN_UID = "kQV9nl2uzZXL7d5ub47pRskhOFM2";
+
+const loginBox = document.getElementById("loginBox");
+const adminArea = document.getElementById("adminArea");
+const message = document.getElementById("message");
+const info = document.getElementById("info");
+const applications = document.getElementById("applications");
+
+document.getElementById("loginBtn").onclick = async () => {
+  message.textContent = "";
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    message.textContent = "Email ও Password দাও।";
+    return;
+  }
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (error) {
+    message.textContent = error.message;
+  }
+};
+
+auth.onAuthStateChanged(user => {
+  if (!user) {
+    loginBox.style.display = "block";
+    adminArea.style.display = "none";
+    return;
+  }
+
+  if (user.uid !== ADMIN_UID) {
+    message.textContent = "এই Account Admin নয়।";
+    auth.signOut();
+    return;
+  }
+
+  loginBox.style.display = "none";
+  adminArea.style.display = "block";
+  loadApplications();
+});
+
+document.getElementById("logoutBtn").onclick = () => auth.signOut();
+
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+async function loadApplications() {
+  info.textContent = "আবেদন লোড হচ্ছে...";
+  applications.innerHTML = "";
+
+  try {
+    const snapshot = await db.ref("applications").once("value");
+
+    if (!snapshot.exists()) {
+      info.textContent = "এখনো কোনো আবেদন পাওয়া যায়নি।";
+      return;
+    }
+
+    let count = 0;
+
+    snapshot.forEach(userSnapshot => {
+      const uid = userSnapshot.key;
+
+      userSnapshot.forEach(appSnapshot => {
+        count++;
+        const app = appSnapshot.val();
+        const appId = appSnapshot.key;
+
+        const card = document.createElement("div");
+        card.className = "application";
+
+        card.innerHTML = `
+          <h3>${safe(app.name)}</h3>
+          <p>Phone: ${safe(app.phone)}</p>
+          <p>Amount: ৳${safe(app.amount)}</p>
+          <p>Duration: ${safe(app.duration)}</p>
+          <p>Reason: ${safe(app.reason)}</p>
+          <p>Status: <span class="status">${safe(app.status)}</span></p>
+          <button class="approve">Approve</button>
+          <button class="reject">Reject</button>
+        `;
+
+        card.querySelector(".approve").onclick = () =>
+          updateStatus(uid, appId, "Approved");
+
+        card.querySelector(".reject").onclick = () =>
+          updateStatus(uid, appId, "Rejected");
+
+        applications.appendChild(card);
+      });
+    });
+
+    info.textContent = "মোট আবেদন: " + count;
+
+  } catch (error) {
+    info.textContent = "Error: " + error.message;
+  }
+}
+
+async function updateStatus(uid, appId, status) {
+  if (!confirm("এই আবেদন " + status + " করতে চাও?")) return;
+
+  try {
+    await db.ref("applications/" + uid + "/" + appId)
+      .update({ status: status });
+
+    alert("Status সফলভাবে পরিবর্তন হয়েছে।");
+    loadApplications();
+
+  } catch (error) {
+    alert("Status পরিবর্তন হয়নি: " + error.message);
+  }
+}
+</script>
+</body>
+</html>
