@@ -1,215 +1,51 @@
-
 <!DOCTYPE html>
-<html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nishan Loan - Admin Panel</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-    }
-    h2 { color: #123b70; }
-    .box, .application {
-      background: white;
-      padding: 18px;
-      margin: 15px 0;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #0001;
-    }
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 7px;
-    }
-    button {
-      padding: 10px 15px;
-      border: 0;
-      border-radius: 7px;
-      color: white;
-      margin: 5px 5px 5px 0;
-      cursor: pointer;
-    }
-    .login { background: #175dcc; width: 100%; }
-    .approve { background: #168447; }
-    .reject { background: #d52f3c; }
-    .logout { background: #555; }
-    .status { font-weight: bold; }
-    #message { color: #c62828; }
-  </style>
-</head>
-<body>
-<div class="container">
-  <h2>Nishan Loan Admin Panel</h2>
+<html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#eaf6ff"><title>Nishan Loan Admin - Demo Wallet</title>
+<style>
+:root{--blue:#287fca;--bg:#eff7ff;--text:#34465a;--muted:#8292a3;--line:#e3edf6}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:var(--text)}main{max-width:560px;margin:auto;padding:16px}.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px;margin:14px 0;box-shadow:0 4px 15px #789bb51a}h1{font-size:22px;margin:4px 0}h2{font-size:18px;margin:0 0 12px}.muted{font-size:13px;color:var(--muted);line-height:1.6}label{display:block;font-size:14px;font-weight:bold;margin:12px 0 6px}input,select{width:100%;padding:13px;border:1px solid #dce6ef;border-radius:10px;font-size:15px;background:#fbfdff}button{border:0;border-radius:10px;padding:13px;background:var(--blue);color:#fff;font-weight:bold;font-size:14px;cursor:pointer;width:100%;margin-top:13px}.secondary{background:#eaf4ff;color:#236ba9}.danger{background:#d95d70}.hidden{display:none!important}.notice{background:#fff7e7;border:1px solid #f1dfb6;color:#795c24;padding:12px;border-radius:11px;font-size:12px;line-height:1.6}.balance{font-size:27px;color:#16865c;font-weight:800;margin-top:8px}.tx{border-top:1px solid var(--line);padding:10px 0;font-size:13px;overflow-wrap:anywhere}#message,#loginMessage{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
 
-  <div class="box" id="loginBox">
-    <h3>Admin Login</h3>
-    <input id="email" type="email" placeholder="Admin Email">
-    <input id="password" type="password" placeholder="Password">
-    <button class="login" id="loginBtn">Login</button>
-    <p id="message"></p>
-  </div>
+/* Refined Admin visual theme; all existing controls and Firebase logic preserved */
+:root{--blue:#398ed3;--bg:#f3f7fd;--text:#293b52;--muted:#7d8da2;--line:#e4edf7}
+body{background:radial-gradient(circle at 5% 0%,#e3f2ff 0,transparent 35%),radial-gradient(circle at 100% 8%,#ffeaf3 0,transparent 30%),#f4f7fc;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+main{max-width:580px;padding:18px 15px 32px}
+.card{border:1px solid #e5edf6;border-radius:21px;padding:20px;margin:15px 0;background:rgba(255,255,255,.97);box-shadow:0 8px 24px #527da00d,0 2px 7px #527da008}
+main>.card:first-child{background:linear-gradient(128deg,#398ed3 0%,#70b9ed 52%,#e994ba 100%);color:white;border:1px solid #ffffff66;box-shadow:0 13px 30px #4a8ec52b;padding:24px 21px;overflow:hidden;position:relative}
+main>.card:first-child h1{font-size:24px;letter-spacing:-.4px}main>.card:first-child .muted{color:#ffffffed}
+h2{font-size:18px;letter-spacing:-.2px;color:var(--text)}label{margin:14px 0 6px;font-size:13px;color:#43566d}
+input,select{padding:14px;border:1px solid #dce7f2;border-radius:13px;background:#fbfdff;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus{outline:none;border-color:#70b6e9;box-shadow:0 0 0 4px #70b6e91c}
+button{border-radius:13px;padding:14px;background:linear-gradient(105deg,#4599dc,#76b8ed);box-shadow:0 6px 14px #4d9bd522;transition:transform .15s,filter .15s}button:active{transform:scale(.985)}
+button.secondary{background:linear-gradient(105deg,#eef7ff,#fff0f6);border:1px solid #e0eaf5;color:#2875b4;box-shadow:none}button.danger{background:linear-gradient(105deg,#d85d72,#ec8aa0);box-shadow:0 6px 14px #d85d7225}
+.notice{border-radius:13px;line-height:1.65}.balance{font-size:30px;color:#16865c;letter-spacing:-.7px;padding:10px 0}.tx{padding:13px 2px;border-top:1px solid #e9eff6;line-height:1.6}
+#message,#loginMessage,#paymentMessage,#announcementStatus{overflow-wrap:anywhere;line-height:1.6}
+@media(max-width:360px){main{padding:12px}.card{padding:16px}}
 
-  <div id="adminArea" style="display:none">
-    <button class="logout" id="logoutBtn">Logout</button>
-    <h3>Loan Applications</h3>
-    <p id="info">Loading...</p>
-    <div id="applications"></div>
-  </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
-
+</style></head><body><main>
+<div class="card"><h1>🛡️ Nishan Loan Admin</h1><p class="muted">Demo Wallet Control Panel</p><div class="notice">শুধু কাল্পনিক Demo টাকা। বাস্তব টাকা, ব্যাংক ট্রান্সফার বা ঋণ বিতরণ নয়। Admin account ছাড়া কেউ এই প্যানেল ব্যবহার করতে পারবে না।</div></div>
+<section id="login" class="card"><h2>Admin Login</h2><label>Admin Email</label><input id="email" type="email" autocomplete="username"><label>Password</label><input id="password" type="password" autocomplete="current-password"><button id="loginBtn">Login</button><p id="loginMessage"></p></section>
+<section id="panel" class="hidden"><div class="card"><h2>Demo Wallet Balance</h2><label>User UID</label><input id="uid" placeholder="User-এর Firebase UID"><button class="secondary" id="checkBtn">Check Balance & History</button><div class="balance" id="balance">৳0</div><div id="history" class="muted">UID দিয়ে Check চাপো।</div></div>
+<div class="card"><h2>Payment Numbers</h2><p class="muted">Add Fund পেজে দেখানোর জন্য bKash, Nagad ও Rocket নম্বর এখানে বসাও।</p><label>bKash Number</label><input id="bkashNumber" type="tel" placeholder="bKash number"><label>Nagad Number</label><input id="nagadNumber" type="tel" placeholder="Nagad number"><label>Rocket Number</label><input id="rocketNumber" type="tel" placeholder="Rocket number"><button id="savePaymentNumbers">Save Payment Numbers</button><p id="paymentMessage"></p></div>
+<div class="card"><h2>Adjust Demo Money</h2><label>কাজ নির্বাচন</label><select id="action"><option value="credit">Demo টাকা যোগ (+)</option><option value="debit">Demo টাকা কমানো (−)</option></select><label>Amount (BDT)</label><input id="amount" type="number" min="1" step="1" placeholder="যেমন 10000"><label>কারণ (ঐচ্ছিক)</label><input id="note" maxlength="120" placeholder="Admin demo credit"><button id="submitBtn">Confirm Adjustment</button><p id="message"></p></div><div class="card"><h2>📢 Publish Announcement</h2><p class="muted">User App-এর Announcements পেজে দেখানোর জন্য নোটিশ লিখো।</p><label>Title</label><input id="announcementTitle" maxlength="100" placeholder="Notice title"><label>Message</label><input id="announcementMessage" maxlength="1000" placeholder="Notice details"><button id="publishAnnouncement">Publish Announcement</button><p id="announcementStatus"></p></div><div class="card"><h2>💸 Repayment Requests</h2><p class="muted">User-দের জমা দেওয়া repayment requests দেখো।</p><button class="secondary" id="loadRepaymentInbox">Refresh Repayment Requests</button><div id="repaymentInbox" class="muted">Refresh চাপো।</div></div><div class="card"><h2>🎧 Customer Support Inbox</h2><p class="muted">User-দের পাঠানো support messages এখানে দেখা যাবে।</p><button class="secondary" id="loadSupportInbox">Refresh Support Messages</button><div id="supportInbox" class="muted">Refresh চাপো।</div></div><button class="danger" id="logoutBtn">Logout</button></section>
+</main>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAVWtZwiP7gR6QZWTne0br9R5_dnbgE5qk",
-  authDomain: "planning-with-ai-12481.firebaseapp.com",
-  databaseURL: "https://planning-with-ai-12481-default-rtdb.firebaseio.com",
-  projectId: "planning-with-ai-12481",
-  storageBucket: "planning-with-ai-12481.firebasestorage.app",
-  messagingSenderId: "1064415862580",
-  appId: "1:1064415862580:web:836ee2f4187cff962c8f61"
-};
+const firebaseConfig={apiKey:"AIzaSyAVWtZwiP7gR6QZWTne0br9R5_dnbgE5qk",authDomain:"planning-with-ai-12481.firebaseapp.com",databaseURL:"https://planning-with-ai-12481-default-rtdb.firebaseio.com",projectId:"planning-with-ai-12481",storageBucket:"planning-with-ai-12481.firebasestorage.app",messagingSenderId:"1064415862580",appId:"1:1064415862580:web:836ee2f4187cff962c8f61"};
+firebase.initializeApp(firebaseConfig);const auth=firebase.auth(),db=firebase.database();const ADMIN_UID="kQV9nl2uzZXL7d5ub47pRskhOFM2";const $=id=>document.getElementById(id);let balanceRef=null,historyRef=null;
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}function money(v){return "৳"+Number(v||0).toLocaleString("en-BD");}
+$("loginBtn").onclick=async()=>{ $("loginMessage").textContent="";try{await auth.signInWithEmailAndPassword($("email").value.trim(),$("password").value);}catch(e){$("loginMessage").textContent="Login error: "+e.message;}};
+auth.onAuthStateChanged(user=>{if(!user){$("login").classList.remove("hidden");$("panel").classList.add("hidden");return;}if(user.uid!==ADMIN_UID){auth.signOut();$("loginMessage").textContent="এই account Admin নয়।";return;}$("login").classList.add("hidden");$("panel").classList.remove("hidden");loadPaymentNumbers();});
+async function loadPaymentNumbers(){try{const s=await db.ref("paymentSettings").once("value"),d=s.val()||{};$("bkashNumber").value=d.bKash?.number||"";$("nagadNumber").value=d.Nagad?.number||"";$("rocketNumber").value=d.Rocket?.number||"";}catch(e){$("paymentMessage").textContent="Load error: "+e.message;}}
+$("savePaymentNumbers").onclick=async()=>{const data={bKash:{number:$("bkashNumber").value.trim()},Nagad:{number:$("nagadNumber").value.trim()},Rocket:{number:$("rocketNumber").value.trim()},updatedAt:Date.now(),updatedBy:auth.currentUser.uid};$("savePaymentNumbers").disabled=true;try{await db.ref("paymentSettings").set(data);$("paymentMessage").textContent="Payment numbers saved.";}catch(e){$("paymentMessage").textContent="Save error: "+e.message+" | Firebase Rules check করো।";}finally{$("savePaymentNumbers").disabled=false;}};
+$("checkBtn").onclick=()=>{const uid=$("uid").value.trim();if(!uid){$("message").textContent="User UID দাও।";return;}if(balanceRef)balanceRef.off();if(historyRef)historyRef.off();balanceRef=db.ref("wallet/"+uid+"/balance");balanceRef.on("value",s=>$("balance").textContent=money(s.val()||0),e=>$("message").textContent="Read error: "+e.message);historyRef=db.ref("walletTransactions/"+uid).limitToLast(30);historyRef.on("value",s=>{const d=s.val()||{},items=Object.entries(d).map(([id,x])=>({id,...x})).reverse();$("history").innerHTML=items.length?items.map(t=>`<div class="tx"><b>${t.type==="credit"?"Added":"Deducted"} ${money(t.amount)}</b><br>${esc(t.note||"Admin adjustment")}<br><span class="muted">${t.createdAt?new Date(Number(t.createdAt)).toLocaleString():""}</span></div>`).join(""):"No transactions yet.";},e=>$("history").textContent="History error: "+e.message);};
+$("submitBtn").onclick=async()=>{const uid=$("uid").value.trim(),amount=Number($("amount").value),type=$("action").value,note=$("note").value.trim()||"Admin demo wallet adjustment";$("message").textContent="";if(!uid||uid.length<10){$("message").textContent="সঠিক User UID দাও।";return;}if(!Number.isSafeInteger(amount)||amount<=0||amount>1000000000){$("message").textContent="১ থেকে ১,০০০,০০০,০০০ পর্যন্ত পূর্ণসংখ্যা দাও।";return;}if(!confirm((type==="credit"?"যোগ":"কমা")+" হবে "+money(amount)+"। নিশ্চিত?"))return;$("submitBtn").disabled=true;try{const ref=db.ref("wallet/"+uid+"/balance");const result=await ref.transaction(current=>{const old=Math.max(0,Number(current)||0),next=type==="credit"?old+amount:old-amount;if(!Number.isSafeInteger(next)||next<0)return;return next;});if(!result.committed)throw new Error("ব্যালেন্স কমানোর জন্য পর্যাপ্ত টাকা নেই অথবা update হয়নি।");await db.ref("walletTransactions/"+uid).push({type,amount,note,createdAt:Date.now(),adminUid:auth.currentUser.uid});$("message").textContent="সফল! নতুন Demo Balance: "+money(result.snapshot.val());$("amount").value="";$("note").value="";}catch(e){$("message").textContent="Error: "+e.message+" | Firebase Rules check করো।";}finally{$("submitBtn").disabled=false;}};
 
-firebase.initializeApp(firebaseConfig);
+$("publishAnnouncement").onclick=async()=>{const title=$("announcementTitle").value.trim(),message=$("announcementMessage").value.trim();if(!title||!message){$("announcementStatus").textContent="Title ও Message লিখো।";return;}$("publishAnnouncement").disabled=true;try{await db.ref("announcements").push({title,message,createdAt:Date.now(),createdBy:auth.currentUser.uid});$("announcementStatus").textContent="Announcement published.";$("announcementTitle").value="";$("announcementMessage").value="";}catch(e){$("announcementStatus").textContent="Publish error: "+e.message;}finally{$("publishAnnouncement").disabled=false;}};
+$("loadSupportInbox").onclick=async()=>{const box=$("supportInbox");box.textContent="Loading...";try{const snap=await db.ref("supportMessages").once("value"),all=snap.val()||{},items=[];Object.entries(all).forEach(([uid,rows])=>Object.entries(rows||{}).forEach(([id,x])=>items.push({uid,id,...x})));items.sort((a,b)=>(Number(b.createdAt)||0)-(Number(a.createdAt)||0));box.innerHTML=items.length?items.map(x=>`<div class="tx"><b>${esc(x.sender==="admin"?"Admin Reply":(x.topic||"Support"))}</b><br>${esc(x.message||"")}<br><span class="muted">${esc(x.email||x.uid)} · ${x.createdAt?new Date(Number(x.createdAt)).toLocaleString():""}</span>${x.sender==="admin"?"":`<label>Reply to this user</label><input id="reply-${esc(x.uid)}-${esc(x.id)}" placeholder="Admin reply"><button class="secondary" onclick="sendSupportReply('${esc(x.uid)}','${esc(x.id)}')">Send Reply</button>`}</div>`).join(""):"No support messages yet.";}catch(e){box.textContent="Read error: "+e.message;}};
 
-const auth = firebase.auth();
-const db = firebase.database();
 
-const ADMIN_UID = "kQV9nl2uzZXL7d5ub47pRskhOFM2";
+window.sendSupportReply=async(uid,messageId)=>{const input=$("reply-"+uid+"-"+messageId),message=input?.value.trim();if(!message){alert("Reply লিখো।");return;}try{await db.ref("supportMessages/"+uid).push({topic:"Support Reply",message,sender:"admin",status:"Answered",createdAt:Date.now(),email:"Admin"});input.value="";$("announcementStatus").textContent="Support reply পাঠানো হয়েছে।";}catch(e){alert("Reply পাঠানো যায়নি: "+e.message+" | Firebase Rules check করো।");}};
 
-const loginBox = document.getElementById("loginBox");
-const adminArea = document.getElementById("adminArea");
-const message = document.getElementById("message");
-const info = document.getElementById("info");
-const applications = document.getElementById("applications");
 
-document.getElementById("loginBtn").onclick = async () => {
-  message.textContent = "";
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+$("loadRepaymentInbox").onclick=async()=>{const box=$("repaymentInbox");box.textContent="Loading...";try{const snap=await db.ref("repaymentRequests").once("value"),all=snap.val()||{},items=[];Object.entries(all).forEach(([uid,rows])=>Object.entries(rows||{}).forEach(([id,x])=>items.push({uid,id,...x})));items.sort((a,b)=>(Number(b.createdAt)||0)-(Number(a.createdAt)||0));box.innerHTML=items.length?items.map(x=>`<div class="tx"><b>৳${money(x.amount)} · ${esc(x.method||"")}</b><br>Loan: ${esc(x.loanId||"")}<br>Reference: ${esc(x.reference||"—")}<br><span class="muted">${esc(x.uid)} · ${x.createdAt?new Date(Number(x.createdAt)).toLocaleString():""}</span></div>`).join(""):"No repayment requests yet.";}catch(e){box.textContent="Read error: "+e.message;}};
 
-  if (!email || !password) {
-    message.textContent = "Email ও Password দাও।";
-    return;
-  }
-
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-  } catch (error) {
-    message.textContent = error.message;
-  }
-};
-
-auth.onAuthStateChanged(user => {
-  if (!user) {
-    loginBox.style.display = "block";
-    adminArea.style.display = "none";
-    return;
-  }
-
-  if (user.uid !== ADMIN_UID) {
-    message.textContent = "এই Account Admin নয়।";
-    auth.signOut();
-    return;
-  }
-
-  loginBox.style.display = "none";
-  adminArea.style.display = "block";
-  loadApplications();
-});
-
-document.getElementById("logoutBtn").onclick = () => auth.signOut();
-
-function safe(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
-
-async function loadApplications() {
-  info.textContent = "আবেদন লোড হচ্ছে...";
-  applications.innerHTML = "";
-
-  try {
-    const snapshot = await db.ref("applications").once("value");
-
-    if (!snapshot.exists()) {
-      info.textContent = "এখনো কোনো আবেদন পাওয়া যায়নি।";
-      return;
-    }
-
-    let count = 0;
-
-    snapshot.forEach(userSnapshot => {
-      const uid = userSnapshot.key;
-
-      userSnapshot.forEach(appSnapshot => {
-        count++;
-        const app = appSnapshot.val();
-        const appId = appSnapshot.key;
-
-        const card = document.createElement("div");
-        card.className = "application";
-
-        card.innerHTML = `
-          <h3>${safe(app.name)}</h3>
-          <p>Phone: ${safe(app.phone)}</p>
-          <p>Amount: ৳${safe(app.amount)}</p>
-          <p>Duration: ${safe(app.duration)}</p>
-          <p>Reason: ${safe(app.reason)}</p>
-          <p>Status: <span class="status">${safe(app.status)}</span></p>
-          <button class="approve">Approve</button>
-          <button class="reject">Reject</button>
-        `;
-
-        card.querySelector(".approve").onclick = () =>
-          updateStatus(uid, appId, "Approved");
-
-        card.querySelector(".reject").onclick = () =>
-          updateStatus(uid, appId, "Rejected");
-
-        applications.appendChild(card);
-      });
-    });
-
-    info.textContent = "মোট আবেদন: " + count;
-
-  } catch (error) {
-    info.textContent = "Error: " + error.message;
-  }
-}
-
-async function updateStatus(uid, appId, status) {
-  if (!confirm("এই আবেদন " + status + " করতে চাও?")) return;
-
-  try {
-    await db.ref("applications/" + uid + "/" + appId)
-      .update({ status: status });
-
-    alert("Status সফলভাবে পরিবর্তন হয়েছে।");
-    loadApplications();
-
-  } catch (error) {
-    alert("Status পরিবর্তন হয়নি: " + error.message);
-  }
-}
-</script>
-</body>
-</html>
+$("logoutBtn").onclick=()=>auth.signOut();
+</script></body></html>
