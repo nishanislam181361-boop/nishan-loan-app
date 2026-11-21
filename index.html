@@ -1,480 +1,675 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<col>Ni
-
+<meta name="theme-color" content="#eaf6ff">
+<title>Nishan Loan App</title>
 <style>
-  input, select, textarea {
-  width: 100%;
-  padding: 13px;
-  margin: 8px 0 13px;
-  border: 1px solid #ccd5e0;
-  border-radius: 8px;
-  font-size: 15px;
-}
+:root{--sky:#eaf6ff;--blue:#55a9e8;--dark:#287fca;--pink:#f28db5;--pink-light:#fff0f6;--white:#fff;--text:#34465a;--muted:#8292a3;--border:#e5edf5;--green:#229c70;--red:#df6477}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--sky);color:var(--text);padding-bottom:90px}
+.container{max-width:520px;margin:auto;padding:16px}
+.hidden{display:none!important}
+.header{background:linear-gradient(120deg,#83c9f4,#f5a6c7);color:white;padding:25px 20px;border-radius:22px;margin-bottom:18px;box-shadow:0 7px 20px #91c8e533}
+.header h2{margin:0 0 7px;font-size:25px}.header p{margin:0;font-size:14px}
+.box{background:white;padding:19px;border-radius:18px;margin-bottom:16px;border:1px solid var(--border);box-shadow:0 4px 15px #8bb9d51a}
+.box h3{margin:0 0 16px;font-size:18px}
+.welcome{background:linear-gradient(120deg,#e3f4ff,#fff0f6);border:none}
+.small{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat{padding:17px 12px;border-radius:15px;background:#edf7ff;border:1px solid #dceeff}
+.stat:nth-child(2){background:#fff0f6;border-color:#ffe0ec}.stat:nth-child(3){background:#eefaf5;border-color:#d9f2e7}.stat:nth-child(4){background:#fff4f2;border-color:#ffe4df}
+.stat p{font-size:12px;margin:0 0 9px;color:var(--muted)}.stat h2{font-size:26px;margin:0}
+label{display:block;font-size:14px;font-weight:bold;margin-top:13px}
+input,select,textarea{width:100%;padding:14px;margin:8px 0 5px;border:1px solid #dce6ef;border-radius:11px;font-size:15px;background:#fbfdff;color:var(--text);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #55a9e81c}
+textarea{min-height:90px;resize:vertical}
+button{border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+.primary{width:100%;background:linear-gradient(100deg,var(--blue),#77bdf0);color:white;margin-top:17px}
+.secondary{width:100%;background:var(--pink-light);color:#d75e91;margin-top:11px}
+.logout{width:100%;background:#fff0f2;color:var(--red);margin-top:15px}
+.application{border:1px solid var(--border);padding:15px;border-radius:13px;margin-top:12px;background:#fcfdff;overflow-wrap:anywhere}
+.application p{margin:7px 0;font-size:14px}
+.status{display:inline-block;background:#edf6ff;color:var(--dark);padding:6px 11px;border-radius:20px;font-size:12px;font-weight:bold}
+.status.Approved{background:#e8f8f0;color:var(--green)}.status.Rejected{background:#fff0f2;color:var(--red)}
+.success{color:var(--green)!important}
+#message,#submitMessage,#bankMessage{font-size:14px;overflow-wrap:anywhere}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:white;border-top:1px solid var(--border);box-shadow:0 -5px 20px #789bb51a;display:flex;justify-content:space-around;padding:8px 2px calc(8px + env(safe-area-inset-bottom))}
+.nav-btn{background:transparent;color:#8b9aaa;padding:6px 1px;border-radius:10px;flex:1;font-size:10px;font-weight:normal;min-width:0}
+.nav-icon{display:block;font-size:19px;margin-bottom:3px}.nav-btn.active{color:#e56e9e;background:#fff0f6;font-weight:bold}
+.auth-box{margin-top:35px}.auth-logo{text-align:center;font-size:30px;font-weight:bold;margin-bottom:10px}
+.footer-note{text-align:center;font-size:12px;color:var(--muted);line-height:1.6;margin:18px 5px}
+.empty{text-align:center;padding:25px 10px;color:var(--muted);font-size:14px}
+.bank-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.bank-card{background:white;border:1px solid var(--border);border-radius:16px;padding:16px 10px;text-align:center;min-height:145px;box-shadow:0 4px 12px #8bb9d51a}
+.bank-card:active{transform:scale(.98)}
+.bank-logo{width:82px;height:68px;border-radius:12px;margin:0 auto 10px;background:white;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);padding:7px}
+.bank-logo img{max-width:100%;max-height:100%;object-fit:contain}
+.bank-logo .brand-mark,.detail-logo .brand-mark{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:800}
+.brand-mark .brand-initial{width:43px;height:43px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;letter-spacing:.5px}
+.brand-mark .brand-name{font-size:8px;letter-spacing:.4px;text-align:center;color:#34465a}
+.detail-logo .brand-mark .brand-initial{width:56px;height:56px;font-size:19px}
+.detail-logo .brand-mark .brand-name{font-size:10px}
+.bank-card h4{margin:5px 0;font-size:14px}.bank-card p{font-size:11px;color:var(--muted);margin:5px 0}
+.disclaimer{background:#fff8e9;border:1px solid #f5e3bd;padding:12px;border-radius:12px;color:#86672e;font-size:12px;line-height:1.6;margin:12px 0}
+.back-btn{background:#edf6ff;color:var(--dark);margin-bottom:14px}
+.detail-logo{width:110px;height:90px;border-radius:15px;background:white;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:10px;margin-bottom:14px}
+.detail-logo img{max-width:100%;max-height:100%;object-fit:contain}
+.bank-detail-title{font-size:21px;margin:0 0 8px}
+.wallet-balance{background:linear-gradient(120deg,#2479c5,#55a9e8);color:white;border-radius:18px;padding:20px;margin-bottom:15px}
+.wallet-balance small{opacity:.9}.wallet-balance h2{font-size:30px;margin:8px 0 0}
+.wallet-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.wallet-action{background:#f5f9ff;border:1px solid var(--border);padding:14px 5px;border-radius:14px;color:var(--text);font-size:12px}
+.wallet-action span{display:block;font-size:22px;margin-bottom:5px}
+.pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.pay-card{background:white;border:1px solid var(--border);border-radius:14px;padding:12px 5px;text-align:center;color:var(--text)}
+.pay-card img{width:42px;height:42px;object-fit:contain;display:block;margin:0 auto 7px;border-radius:10px}
+.pay-card strong{font-size:12px}.pay-card.selected{outline:2px solid var(--blue);background:#f1f8ff}
+.pay-number{background:#f6f9fc;border:1px dashed #b9cddd;padding:12px;border-radius:10px;font-size:14px;margin:10px 0;overflow-wrap:anywhere}
+.wallet-panel{border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:13px;background:#fff}
+.wallet-panel h4{margin:0 0 8px}
+.profile-photo{width:104px;height:104px;border-radius:50%;object-fit:cover;border:3px solid #dceeff;background:#f3f8fc;display:block;margin:0 auto 12px}.profile-photo-wrap{text-align:center;margin-bottom:12px}.profile-grid{display:grid;grid-template-columns:1fr;gap:2px}
 
-textarea {
-  min-height: 85px;
-  resize: vertical;
-}
 
-button {
-  border: none;
-  border-radius: 8px;
-  padding: 13px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
+/* Organized extra features */
+.extra-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.extra-tile{background:linear-gradient(135deg,#f1f8ff,#fff2f7);border:1px solid var(--border);border-radius:14px;padding:15px 10px;text-align:left;color:var(--text);min-height:82px}
+.extra-tile b{display:block;margin-bottom:5px}.extra-tile span{font-size:12px;color:var(--muted);font-weight:normal}
+.receipt-btn{background:#edf6ff;color:var(--dark);padding:9px 12px;margin-top:8px}
+.nav-btn{font-size:9px}.bottom-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:6px 4px calc(6px + env(safe-area-inset-bottom));max-height:150px;overflow-y:auto}
+body{padding-bottom:160px}
+body.dark{--sky:#111827;--white:#1f2937;--text:#e5edf7;--muted:#aab8ca;--border:#374151;background:#111827;color:var(--text)}
+body.dark .box,body.dark .bottom-nav,body.dark .wallet-panel{background:#1f2937;color:var(--text);border-color:#374151}
+body.dark input,body.dark select,body.dark textarea{background:#111827;color:#e5edf7;border-color:#4b5563}
+body.dark .application,body.dark .extra-tile,body.dark .wallet-action,body.dark .pay-card,body.dark .bank-card{background:#273449;color:#e5edf7;border-color:#475569}
+body.dark .welcome{background:linear-gradient(120deg,#243b53,#3b2940)}
+body.dark .stat{background:#273449;border-color:#475569}
+.pin-overlay{position:fixed;inset:0;background:#101827ed;z-index:9999;display:flex;align-items:center;justify-content:center;padding:22px}
+.pin-card{background:white;color:#34465a;padding:24px;border-radius:20px;width:min(100%,360px);text-align:center}
+@media(max-width:360px){.nav-btn{font-size:8px}.nav-icon{font-size:16px}}
 
-.primary {
-  width: 100%;
-  background: #155bc0;
-  color: white;
-}
 
-.secondary {
-  width: 100%;
-  background: #e8effa;
-  color: #17477f;
-  margin-top: 10px;
-}
-
-.logout {
-  background: #d93645;
-  color: white;
-  width: 100%;
-}
-
-.hidden { display: none; }
-
-.application {
-  border: 1px solid #e0e6ef;
-  padding: 13px;
-  border-radius: 9px;
-  margin-top: 12px;
-}
-
-.status {
-  font-weight: bold;
-  color: #155bc0;
-}
-
-#message {
-<div class="box">
-  <h3>🔔 Notifications</h3>
-  <div id="notificationBox">
-    <p class="small">No new notifications.</p>
-  </div>
-</div>
-
-  color: #d32f2f;
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-.success { color: #168447 !important; }
-
-.small {
-  font-size: 13px;
-  color
-}
+/* Visual polish: presentation only; existing app logic and IDs remain unchanged */
+:root{--sky:#f2f7ff;--blue:#4b9fe3;--dark:#2677bd;--pink:#ed8fb6;--pink-light:#fff0f6;--text:#293b52;--muted:#7d8da2;--border:#e4edf7;--green:#229c70;--red:#df6477}
+body{background:radial-gradient(circle at 8% 0%,#e2f2ff 0,transparent 34%),radial-gradient(circle at 95% 12%,#ffeaf3 0,transparent 30%),#f5f8fd;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;letter-spacing:.05px}
+.container{padding:18px 15px 24px}
+.header{position:relative;overflow:hidden;background:linear-gradient(128deg,#398ed3 0%,#70b9ed 48%,#e994ba 100%);border:1px solid #ffffff66;border-radius:25px;padding:27px 22px;box-shadow:0 13px 30px #4a8ec52b}
+.header:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;right:-45px;top:-78px;background:#ffffff20;box-shadow:-65px 105px 0 -30px #ffffff16;pointer-events:none}
+.header h2{font-size:24px;letter-spacing:-.5px;text-shadow:0 2px 8px #24547a35}.header p{opacity:.94;letter-spacing:.2px}
+.box{border:1px solid #e5edf6;border-radius:21px;padding:19px;background:rgba(255,255,255,.96);box-shadow:0 8px 24px #527da00d,0 2px 7px #527da008;transition:transform .18s ease,box-shadow .18s ease}
+.box h3{font-size:18px;letter-spacing:-.2px;color:var(--text);margin-bottom:13px}
+.welcome{background:linear-gradient(130deg,#e9f5ff,#fff0f6);box-shadow:0 8px 22px #7ba8c51a}
+.stat{border-radius:17px;padding:18px 14px;box-shadow:inset 0 1px #ffffffb5}.stat h2{font-size:25px;letter-spacing:-.7px}
+input,select,textarea{border:1px solid #dce7f2;border-radius:13px;background:#fbfdff;padding:14px 13px;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus,textarea:focus{border-color:#70b6e9;box-shadow:0 0 0 4px #70b6e91c}
+button{border-radius:13px;transition:transform .15s ease,filter .15s ease,box-shadow .15s ease}button:active{transform:scale(.985)}
+.primary{background:linear-gradient(105deg,#4599dc,#76b8ed);box-shadow:0 7px 15px #4d9bd52b;padding:14px 16px}.secondary{background:linear-gradient(105deg,#fff0f6,#f4f7ff);border:1px solid #f5dce8;color:#c95f8c}
+.application{border-radius:16px;background:linear-gradient(145deg,#fff,#fbfdff);border-color:#e6edf6;padding:16px}
+.status{letter-spacing:.2px}.bank-card,.pay-card,.extra-tile{border-radius:17px;box-shadow:0 5px 14px #7199b016;transition:transform .18s ease,box-shadow .18s ease}.bank-card:active,.pay-card:active,.extra-tile:active{transform:scale(.98)}
+.wallet-balance{border-radius:20px;background:linear-gradient(125deg,#2e83c9,#72b9eb 62%,#e995bd);color:white;padding:20px;box-shadow:0 10px 22px #438fc52c}.wallet-balance small{color:#ffffffdf}.wallet-balance h2{font-size:30px;color:white;margin:8px 0 0}
+.wallet-action{border:1px solid #e4edf7;border-radius:15px;background:linear-gradient(145deg,#f4faff,#fff5f9);box-shadow:0 4px 12px #7299b010;padding:14px 8px}
+.wallet-panel{border-radius:16px;background:#fbfdff}
+.bottom-nav{background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-top:1px solid #e7edf5;box-shadow:0 -8px 25px #496e9015;padding-top:9px}.nav-btn{border-radius:12px;font-weight:600;line-height:1.25}.nav-btn.active{background:linear-gradient(135deg,#fff0f6,#edf7ff);color:#d45f91}
+.profile-photo{box-shadow:0 5px 18px #5b9ac52b;border:4px solid white;outline:2px solid #d8eafa}
+.empty{background:#f8fbff;border:1px dashed #dce7f2;border-radius:14px;margin-top:10px}
+body.dark{background:#101827}body.dark .box{background:#1d293a;border-color:#34445a}body.dark .box h3{color:#e5edf7}body.dark .bottom-nav{background:rgba(25,37,54,.96)}body.dark .empty{background:#202e42;border-color:#43546b}body.dark .wallet-balance{background:linear-gradient(125deg,#245b8c,#426f9a 62%,#9b5d7d)}
+@media(prefers-reduced-motion:no-preference){.box{animation:softRise .35s ease both}@keyframes softRise{from{opacity:.82;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}}
+@media(max-width:360px){.container{padding-left:11px;padding-right:11px}.box{padding:15px}.header{padding:22px 17px}}
 
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
-  <div class="header">
-    <h2>Nishan Loan App</h2>
-    <p>Loan Application Portal</p>
-  </div>
-
-  <!-- LOGIN AND REGISTER -->
-  <div class="box" id="authBox">
-
-    <h3 id="authTitle">Login Account</h3>
-
-    <input id="email" type="email"
-      placeholder="Email Address">
-
-    <input id="password" type="password"
-      placeholder="Password">
-
-    <button class="primary" id="loginBtn">
-      Login
-    </button>
-
-    <button class="secondary" id="registerBtn">
-      Create New Account
-    </button>
-
+  <div id="authBox" class="box auth-box">
+    <h2 style="text-align:center">Bangladesh Loan Community</h2>
+    <p class="small" style="text-align:center">Loan Application Portal</p><h3 id="authTitle">Login Account</h3>
+    <label>Email Address</label><input id="email" type="email" placeholder="Enter email">
+    <label>Password</label><input id="password" type="password" placeholder="Enter password">
+    <button class="primary" id="loginBtn">Login</button><button class="secondary" id="registerBtn">Create New Account</button>
     <p id="message"></p>
-
   </div>
-
-  <!-- MAIN APP -->
   <div id="appBox" class="hidden">
-<div class="box">
-  <h3>✦ Premium Dashboard</h3>
-
-  <div class="application">
-    <p>Total Applications</p>
-    <h2 id="totalCount">0</h2>
-  </div>
-
-  <div class="application">
-    <p>Pending Applications</p>
-    <h2 id="pendingCount">0</h2>
-  </div>
-
-  <div class="application">
-    <p>Approved Applications</p>
-    <h2 id="approvedCount">0</h2>
-  </div>
-
-  <div class="application">
-    <p>Rejected Applications</p>
-    <h2 id="rejectedCount">0</h2>
-  </div>
-</div>
-    <div class="box">
-      <h3>Welcome to Nishan Loan</h3>
-      <p id="userEmail" class="small"></p>
-      <button class="logout" id="logoutBtn">
-        Logout
-      </button>
-    </div>
-
-    <!-- LOAN FORM -->
-    <div class="box">
-
-      <h3>Loan Application Form</h3>
-
-      <label>Full Name</label>
-      <input id="name" type="text"
-        placeholder="Enter your name">
-
-      <label>Phone Number</label>
-      <input id="phone" type="tel"
-        placeholder="Enter phone number">
-
-      <label>Loan Amount (BDT)</label>
-      <input id="amount" type="number"
-        placeholder="Enter amount">
-
-      <label>Loan Duration</label>
-      <select id="duration">
-        <option value="">Select Duration</option>
-        <option value="3 Months">3 Months</option>
-        <option value="6 Months">6 Months</option>
-        <option value="12 Months">12 Months</option>
-        <option value="24 Months">24 Months</option>
-      </select>
-
-      <label>Loan Purpose</label>
-      <textarea id="reason"
-        placeholder="Why do you need this loan?"></textarea>
-
-      <button class="primary" id="submitBtn">
-        Submit Application
-      </button>
-
-      <p id="submitMessage"></p>
-
-    </div>
-
-    <!-- APPLICATION HISTORY -->
-    <div class="box">
-      <h3>My Applications</h3>
-<div class="box">
-  <h3>🔔 Notifications</h3>
-  <div id="notificationBox">
-    <p class="small">No new notifications.</p>
-  </div>
-</div>
-
-      <div id="myApplications">
-        Loading...
+    <div class="header"><h2>Bangladesh Loan Community</h2><p>Your Application Portal</p></div>
+    <section id="page-home">
+      <div class="box welcome"><h3>Welcome!</h3><p class="small">Welcome to your dashboard.</p><p id="homeEmail" class="small"></p></div>
+      <div class="box"><h3>Dashboard Overview</h3><div class="stats">
+        <div class="stat"><p>Total Applications</p><h2 id="totalCount">0</h2></div><div class="stat"><p>Pending</p><h2 id="pendingCount">0</h2></div>
+        <div class="stat"><p>Approved</p><h2 id="approvedCount">0</h2></div><div class="stat"><p>Rejected</p><h2 id="rejectedCount">0</h2></div>
+      </div></div>
+      <div class="box"><h3>Quick Features</h3><div class="extra-grid">
+        <button class="extra-tile" onclick="showPage('repayments')">💸 <b>Repayment</b><span>কিস্তির হিসাব</span></button>
+        <button class="extra-tile" onclick="showPage('transactions')">🧾 <b>Transaction History</b><span>লেনদেন ও রসিদ</span></button>
+        <button class="extra-tile" onclick="showPage('announcements')">📢 <b>Announcements</b><span>Admin-এর নোটিশ</span></button>
+        <button class="extra-tile" onclick="showPage('support')">🎧 <b>Customer Support</b><span>সাহায্য চাও</span></button>
+        <button class="extra-tile" onclick="showPage('invite')">👥 <b>Invite Friends</b><span>বন্ধুদের আমন্ত্রণ</span></button>
+        <button class="extra-tile" onclick="showPage('settings')">⚙️ <b>App Settings</b><span>Dark Mode ও PIN</span></button>
+        <button class="extra-tile" onclick="showPage('tools')">🧮 <b>Smart Loan Tools</b><span>EMI, Eligibility ও হিসাব</span></button>
+      </div></div>
+    </section>
+    <section id="page-tools" class="hidden">
+      <div class="box"><h3>🧮 Loan EMI Calculator</h3><p class="small">সুদের হার ও সময় অনুযায়ী আনুমানিক মাসিক কিস্তি হিসাব করো।</p><label>Loan Amount (৳)</label><input id="emiAmount" type="number" min="1" placeholder="যেমন 10000"><label>Annual Interest Rate (%)</label><input id="emiRate" type="number" min="0" step="0.1" value="12"><label>Duration (Months)</label><input id="emiMonths" type="number" min="1" max="360" value="6"><button class="primary" id="calculateEmi">Calculate EMI</button><div id="emiResult" class="empty">এখানে হিসাব দেখা যাবে।</div></div>
+      <div class="box"><h3>✅ Loan Eligibility Estimator</h3><p class="small">এটি শুধু প্রাথমিক অনুমান; প্রকৃত অনুমোদন Admin/ঋণদাতা নির্ধারণ করবেন।</p><label>Monthly Income (৳)</label><input id="eligIncome" type="number" min="0" placeholder="মাসিক আয়"><label>Monthly Existing Debt (৳)</label><input id="eligDebt" type="number" min="0" value="0" placeholder="বর্তমান কিস্তি/ঋণ"><label>Requested Loan (৳)</label><input id="eligLoan" type="number" min="1" placeholder="কত টাকা প্রয়োজন"><button class="primary" id="checkEligibility">Estimate Eligibility</button><div id="eligResult" class="empty">তথ্য দিলে আনুমানিক ফলাফল দেখাবে।</div></div>
+      <div class="box"><h3>📊 Income & Expense Tracker</h3><label>Type</label><select id="trackerType"><option value="income">Income / আয়</option><option value="expense">Expense / খরচ</option></select><label>Amount (৳)</label><input id="trackerAmount" type="number" min="1" placeholder="টাকার পরিমাণ"><label>Note</label><input id="trackerNote" maxlength="80" placeholder="যেমন বাজার / বেতন"><button class="primary" id="addTrackerEntry">Add Entry</button><div id="trackerSummary" class="empty">এখনো কোনো হিসাব যোগ করা হয়নি।</div></div>
+      <div class="box"><h3>🧾 Download Statement</h3><p class="small">তোমার loan application ও wallet balance-এর একটি printable statement তৈরি হবে।</p><button class="secondary" id="printStatement">Print / Save as PDF</button></div>
+    </section>
+    <section id="page-apply" class="hidden"><div class="box"><h3>Loan Application Form</h3>
+      <label>Enter Name</label><input id="name" type="text" placeholder="Enter your name">
+      <label>Phone Number</label><input id="phone" type="tel" placeholder="Enter phone number">
+      <label>Loan Amount (BDT)</label><input id="amount" type="number" min="500" max="25000" placeholder="Enter loan amount">
+      <label>Loan Duration</label><select id="duration"><option value="">Select Duration</option><option value="1 Month">1 Month</option><option value="3 Months">3 Months</option><option value="6 Months">6 Months</option><option value="12 Months">12 Months</option></select>
+      <label>Per Due</label><select id="perDue"><option value="">Select Per Due</option><option value="Daily">Daily</option><option value="Weekly">Weekly</option><option value="Monthly">Monthly</option></select>
+      <label>Loan Purpose</label><textarea id="reason" placeholder="Enter loan purpose"></textarea>
+      <button class="primary" id="submitBtn">Submit Application</button><p id="submitMessage"></p>
+    </div></section>
+    <section id="page-loans" class="hidden"><div class="box"><h3>My Applications</h3><p class="small">View your application history and status.</p><div id="myApplications">Loading...</div></div></section>
+    <section id="page-notifications" class="hidden"><div class="box"><h3>Notifications</h3><p class="small">Updates about your applications.</p><div id="notificationBox"><div class="empty">No new notifications.</div></div></div></section>
+    <section id="page-wallet" class="hidden">
+      <div class="box">
+        <h3>My Wallet</h3>
+        <div class="wallet-balance"><small>Virtual Wallet Balance</small><h2>৳ <span id="walletBalance">0.00</span></h2></div>
+        <div class="wallet-actions">
+          <button class="wallet-action" onclick="walletMode('add')"><span>＋</span>Add Fund</button>
+          <button class="wallet-action" onclick="walletMode('send')"><span>↗</span>Send Money</button>
+          <button class="wallet-action" onclick="walletMode('cashout')"><span>⇩</span>Cash Out</button>
+          <button class="wallet-action" onclick="walletMode('npsb')"><span>🏦</span>NPSB Transfer</button>
+        </div>
       </div>
-    </div>
-
+      <div class="box hidden" id="addFundPanel">
+        <h3>Add Fund</h3><p class="small">পেমেন্ট মাধ্যম নির্বাচন করো</p>
+        <div class="pay-grid">
+          <button class="pay-card" id="method-bKash" onclick="selectPayMethod('bKash')"><img src="https://www.google.com/s2/favicons?domain=bkash.com&sz=128" alt="bKash logo"><strong>bKash</strong></button>
+          <button class="pay-card" id="method-Nagad" onclick="selectPayMethod('Nagad')"><img src="https://www.google.com/s2/favicons?domain=nagad.com.bd&sz=128" alt="Nagad logo"><strong>Nagad</strong></button>
+          <button class="pay-card" id="method-Rocket" onclick="selectPayMethod('Rocket')"><img src="https://www.google.com/s2/favicons?domain=dutchbanglabank.com&sz=128" alt="Rocket logo"><strong>Rocket</strong></button>
+        </div>
+        <div class="wallet-panel"><h4 id="selectedMethodTitle">পেমেন্ট মাধ্যম নির্বাচন করো</h4><div class="pay-number">পেমেন্ট নম্বর: <b id="configuredPayNumber">এখনো নম্বর সেট করা হয়নি</b></div>
+          <label>যে নম্বর থেকে টাকা পাঠিয়েছ</label><input id="fundSenderNumber" type="tel" placeholder="01XXXXXXXXX">
+          <label>Transaction ID</label><input id="fundTrxId" type="text" placeholder="Transaction ID লিখো">
+          <label>Amount (BDT)</label><input id="fundAmount" type="number" min="1" placeholder="টাকার পরিমাণ">
+          <button class="primary" id="fundSubmitBtn">Add Fund Request</button><p id="fundMessage"></p>
+        </div>
+      </div>
+      <div class="box hidden" id="sendMoneyPanel"><h3>Send Money</h3>
+        <label>Receiver Account Email</label><input id="sendReceiver" type="email" placeholder="Receiver-এর account email">
+        <label>Amount (BDT)</label><input id="sendAmount" type="number" min="1" placeholder="টাকার পরিমাণ">
+        <label>Note (Optional)</label><input id="sendNote" type="text" placeholder="কিছু লিখতে পারো">
+        <button class="primary" id="sendSubmitBtn">Send Money Request</button><p id="sendMessage"></p>
+      </div>
+      <div class="box hidden" id="cashoutPanel"><h3>Cash Out</h3>
+        <label>Payment Method</label><select id="cashoutMethod"><option value="bKash">bKash</option><option value="Nagad">Nagad</option><option value="Rocket">Rocket</option></select>
+        <label>Your Account Number</label><input id="cashoutNumber" type="tel" placeholder="01XXXXXXXXX">
+        <label>Amount (BDT)</label><input id="cashoutAmount" type="number" min="1" placeholder="টাকার পরিমাণ">
+        <button class="primary" id="cashoutSubmitBtn">Cash Out Request</button><p id="cashoutMessage"></p>
+      </div>
+      <div class="box hidden" id="npsbPanel"><h3>🏦 NPSB Bank Transfer</h3>
+        <p class="small">ব্যাংক থেকে অন্য ব্যাংকে টাকা পাঠানোর রিকোয়েস্ট</p>
+        <label>আপনার ব্যাংকের নাম</label><input id="npsbFromBank" type="text" placeholder="যে ব্যাংক থেকে পাঠাবে">
+        <label>আপনার ব্যাংক অ্যাকাউন্ট নম্বর</label><input id="npsbFromAccount" type="text" inputmode="numeric" placeholder="আপনার অ্যাকাউন্ট নম্বর">
+        <label>প্রাপকের ব্যাংকের নাম</label><input id="npsbToBank" type="text" placeholder="যে ব্যাংকে পাঠাবে">
+        <label>প্রাপকের নাম</label><input id="npsbReceiverName" type="text" placeholder="Account holder name">
+        <label>প্রাপকের ব্যাংক অ্যাকাউন্ট নম্বর</label><input id="npsbToAccount" type="text" inputmode="numeric" placeholder="প্রাপকের অ্যাকাউন্ট নম্বর">
+        <label>Amount (BDT)</label><input id="npsbAmount" type="number" min="1" placeholder="টাকার পরিমাণ">
+        <label>Note (Optional)</label><input id="npsbNote" type="text" placeholder="লেনদেনের বিবরণ">
+        <button class="primary" id="npsbSubmitBtn">Submit NPSB Request</button><p id="npsbMessage"></p>
+      </div>
+    </section>
+    <section id="page-banks" class="hidden"><div class="box">
+      <h3>Virtual Bank</h3><p class="small">ব্যাংক নির্বাচন করে বিস্তারিত দেখো।</p>
+      <div class="bank-grid">
+        <button class="bank-card" onclick="openBank('City Bank')"><div class="bank-logo"><img src="https://www.google.com/s2/favicons?domain=citybankplc.com&sz=128" alt="City Bank logo"></div><h4>City Bank</h4><p>View Details</p></button>
+        <button class="bank-card" onclick="openBank('Prime Bank')"><div class="bank-logo"><img src="https://www.google.com/s2/favicons?domain=primebank.com.bd&sz=128" alt="Prime Bank logo"></div><h4>Prime Bank</h4><p>View Details</p></button>
+        <button class="bank-card" onclick="openBank('Trust Bank')"><div class="bank-logo"><img src="https://www.google.com/s2/favicons?domain=tblbd.com&sz=128" alt="Trust Bank logo"></div><h4>Trust Bank</h4><p>View Details</p></button>
+        <button class="bank-card" onclick="openBank('BRAC Bank')"><div class="bank-logo"><img src="https://www.google.com/s2/favicons?domain=bracbank.com&sz=128" alt="BRAC Bank logo"></div><h4>BRAC Bank</h4><p>View Details</p></button>
+      </div>
+    </div></section>
+    <section id="page-bank-details" class="hidden"><div class="box"><button class="back-btn" onclick="showPage('banks')">← Back to Banks</button><div id="bankDetailContent"></div></div></section>
+    <section id="page-bank-apply" class="hidden"><div class="box">
+      <button class="back-btn" onclick="showPage('bank-details')">← Back</button><h3 id="bankApplyTitle">Virtual Bank</h3>
+      <label>Enter Name</label><input id="bankName" type="text" placeholder="Enter name">
+      <label>Your Phone Number</label><input id="bankPhone" type="tel" placeholder="Your phone number">
+      <label>Loan Amount (BDT)</label><input id="bankAmount" type="number" min="1" max="100000000" placeholder="Enter loan amount">
+      <label>Loan Number</label><input id="bankLoanNumber" type="text" placeholder="Enter loan number">
+      <button class="primary" id="bankSubmitBtn">Submit</button><p id="bankMessage"></p>
+    </div></section>
+    <section id="page-repayments" class="hidden"><div class="box"><h3>💸 Loan Repayment</h3><p class="small">অনুমোদিত আবেদনের কিস্তি/পরিশোধের রিকোয়েস্ট এখানে জমা দাও।</p><div id="repaymentLoans" class="empty">Loading approved loans...</div><label>Loan/Application ID</label><input id="repayLoanId" placeholder="Loan ID"><label>Payment Amount (BDT)</label><input id="repayAmount" type="number" min="1" placeholder="টাকার পরিমাণ"><label>Payment Method</label><select id="repayMethod"><option>bKash</option><option>Nagad</option><option>Rocket</option><option>Bank</option></select><label>Transaction ID / Reference</label><input id="repayReference" placeholder="Reference (যদি থাকে)"><button class="primary" id="repaySubmit">Submit Repayment Request</button><p id="repayMessage"></p></div><div class="box"><h3>My Repayment Requests</h3><div id="repaymentHistory" class="empty">Loading...</div></div></section>
+<section id="page-transactions" class="hidden"><div class="box"><h3>🧾 Transaction History</h3><p class="small">Wallet-এর সব request ও status এখানে দেখা যাবে। Receipt চাপলে রসিদ প্রিন্ট করা যাবে।</p><div id="transactionList" class="empty">Loading transactions...</div></div></section>
+<section id="page-announcements" class="hidden"><div class="box"><h3>📢 Admin Announcements</h3><p class="small">Admin প্রকাশিত নোটিশ এখানে দেখা যাবে।</p><div id="announcementList" class="empty">Loading announcements...</div></div></section>
+<section id="page-support" class="hidden"><div class="box"><h3>🎧 Customer Support</h3><p class="small">সমস্যা বা প্রশ্ন লিখে Admin-এর কাছে পাঠাও।</p><label>বিষয়</label><select id="supportTopic"><option>Loan Application</option><option>Wallet</option><option>Payment</option><option>Account / Profile</option><option>Other</option></select><label>তোমার মেসেজ</label><textarea id="supportText" maxlength="1000" placeholder="কী সমস্যা হচ্ছে লিখো..."></textarea><button class="primary" id="supportSubmit">Send to Support</button><p id="supportMessage"></p></div><div class="box"><h3>Previous Support Messages</h3><div id="supportHistory" class="empty">Loading...</div></div></section>
+<section id="page-invite" class="hidden"><div class="box"><h3>👥 Invite Friends</h3><p>বন্ধুদের Nishan Loan App-এর লিংক পাঠাও।</p><div class="pay-number" id="inviteLink"></div><button class="primary" id="shareInvite">Share Invite Link</button><button class="secondary" id="copyInvite">Copy Link</button><p id="inviteMessage" class="small"></p></div></section>
+<section id="page-settings" class="hidden"><div class="box"><h3>⚙️ App Settings</h3><h4>🌙 Dark Mode</h4><p class="small">অ্যাপের রং Dark / Light করো।</p><button class="secondary" id="darkToggle">Turn On Dark Mode</button><hr style="border:0;border-top:1px solid var(--border);margin:20px 0"><h4>🔐 Quick PIN Lock</h4><p class="small">এই ডিভাইসে অ্যাপ খোলার সময় PIN চাইবে। এটি ডিভাইস-ভিত্তিক সুবিধা, ব্যাংক-স্তরের নিরাপত্তা নয়।</p><label>6-digit PIN</label><input id="pinInput" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="৬ সংখ্যার PIN"><button class="primary" id="savePin">Save / Update PIN</button><button class="secondary" id="removePin">Remove PIN</button><p id="pinMessage"></p></div></section>
+<section id="page-profile" class="hidden"><div class="box"><h3>My Profile</h3><div class="profile-photo-wrap"><img id="profilePreview" class="profile-photo" alt="Profile picture" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='60' fill='%23eaf6ff'/%3E%3Ccircle cx='60' cy='43' r='22' fill='%2398c8e8'/%3E%3Cpath d='M20 112c4-26 20-39 40-39s36 13 40 39' fill='%2398c8e8'/%3E%3C/svg%3E"><label for="profilePhoto" style="text-align:center">Add / Change Profile Picture</label><input id="profilePhoto" type="file" accept="image/*"></div><div class="profile-grid"><label>Full Name</label><input id="profileName" type="text" maxlength="80" placeholder="তোমার পুরো নাম"><label>Phone Number</label><input id="profilePhone" type="tel" maxlength="20" placeholder="01XXXXXXXXX"><label>Date of Birth</label><input id="profileDob" type="date"><label>Address</label><textarea id="profileAddress" maxlength="300" placeholder="তোমার ঠিকানা"></textarea><p class="small">Account Email</p><p id="userEmail"></p></div><button class="primary" id="saveProfileBtn">Save Profile</button><p id="profileMessage"></p><button class="logout" id="logoutBtn">Logout</button></div></section>
   </div>
-
-  <p class="small">
-    Demo application portal. Submission does not guarantee
-    loan approval or payment.
-  </p>
-
 </div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
-
-<script>
-
-// FIREBASE CONFIG
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAVWtZwiP7gR6QZWTne0br9R5_dnbgE5qk",
-  authDomain: "planning-with-ai-12481.firebaseapp.com",
-  databaseURL: "https://planning-with-ai-12481-default-rtdb.firebaseio.com",
-  projectId: "planning-with-ai-12481",
-  storageBucket: "planning-with-ai-12481.firebasestorage.app",
-  messagingSenderId: "1064415862580",
-  appId: "1:1064415862580:web:836ee2f4187cff962c8f61"
+<section id="page-more" class="hidden">
+  <div class="box"><h3>📷 QR Code Scanner</h3><p class="small">সমর্থিত ব্রাউজারে ক্যামেরা দিয়ে QR স্ক্যান করো। স্ক্যান করা তথ্য শুধু দেখানো হবে; কোনো পেমেন্ট স্বয়ংক্রিয়ভাবে হবে না।</p><video id="qrVideo" playsinline style="width:100%;max-height:260px;border-radius:14px;background:#101827;display:none"></video><button class="primary" id="startQr">Start Camera Scanner</button><button class="secondary" id="stopQr" style="display:none">Stop Scanner</button><label>অথবা QR-এর লেখা এখানে পেস্ট করো</label><textarea id="qrManual" placeholder="QR code-এর text..."></textarea><button class="secondary" id="readQrManual">Read QR Text</button><div id="qrResult" class="empty">এখানে QR-এর ফলাফল দেখা যাবে।</div></div>
+  <div class="box"><h3>🎯 Savings Goal</h3><p class="small">নিজের সঞ্চয়ের লক্ষ্য ও এখন পর্যন্ত জমার পরিমাণ লিখে অগ্রগতি দেখো। এই হিসাব এই ডিভাইসে সংরক্ষিত থাকবে।</p><label>Goal Name</label><input id="savingName" maxlength="60" placeholder="যেমন নতুন ফোন কেনা"><label>Target Amount (৳)</label><input id="savingTarget" type="number" min="1" placeholder="লক্ষ্য টাকা"><label>Saved Amount (৳)</label><input id="savingCurrent" type="number" min="0" placeholder="এখন পর্যন্ত জমা"><button class="primary" id="saveGoal">Save Savings Goal</button><div id="savingProgress" class="empty">এখনো কোনো লক্ষ্য সেট করা হয়নি।</div></div>
+  <div class="box"><h3>📊 My App Activity Score</h3><p class="small">এটি শুধু অ্যাপের নিজস্ব activity estimate; কোনো ব্যাংক বা Credit Bureau-এর ক্রেডিট স্কোর নয় এবং ঋণ অনুমোদনে ব্যবহারযোগ্য নয়।</p><div id="activityScore" class="empty">তথ্য লোড হচ্ছে...</div></div>
+  <div class="box"><h3>💬 Support Chat</h3><p class="small">এখানে পাঠানো মেসেজ Support inbox-এ যাবে। Admin-এর উত্তর এলে এই thread-এ দেখাবে (Admin reply integration থাকলে)।</p><div id="chatThread" class="empty">মেসেজ লোড হচ্ছে...</div><textarea id="chatText" maxlength="1000" placeholder="তোমার মেসেজ লিখো..."></textarea><button class="primary" id="sendChat">Send Message</button><p id="chatStatus" class="small"></p></div>
+  <div class="box"><h3>💳 Digital Membership Card</h3><div id="memberCard" style="border-radius:18px;padding:20px;color:white;background:linear-gradient(125deg,#2677bd,#65b6e9 60%,#e994ba);box-shadow:0 8px 22px #548dbb33"><div style="font-size:12px;opacity:.9">NISHAN LOAN APP · MEMBER</div><h2 style="margin:24px 0 8px">Bangladesh Loan Community</h2><div id="memberName" style="font-weight:bold">Member</div><div id="memberId" style="font-size:12px;margin-top:8px;letter-spacing:1px">Member ID: —</div><div style="font-size:11px;margin-top:18px;opacity:.9">Digital membership identification only</div></div><button class="secondary" id="printMember">Print Membership Card</button></div>
+  <div class="box"><h3>🔎 Transaction Filter</h3><label>Search transaction</label><input id="txSearch" placeholder="Type, method, amount..."/><label>Status</label><select id="txStatus"><option value="all">All Status</option><option>Pending</option><option>Approved</option><option>Rejected</option></select><div id="txFiltered" class="empty">Wallet history লোড হলে এখানে দেখা যাবে।</div></div>
+  <div class="box"><h3>🎨 Theme Customization</h3><p class="small">অ্যাপের পছন্দের রং বেছে নাও।</p><div class="extra-grid"><button class="extra-tile" data-theme="blue">💙 Blue</button><button class="extra-tile" data-theme="pink">🌸 Pink</button><button class="extra-tile" data-theme="purple">💜 Purple</button><button class="extra-tile" data-theme="green">💚 Green</button></div><p id="themeStatus" class="small"></p></div>
+</section>
+<div id="bottomNav" class="bottom-nav hidden">
+  <button class="nav-btn active" data-page="home" onclick="showPage('home')"><span class="nav-icon">⌂</span>Home</button>
+  <button class="nav-btn" data-page="apply" onclick="showPage('apply')"><span class="nav-icon">＋</span>Apply</button>
+  <button class="nav-btn" data-page="loans" onclick="showPage('loans')"><span class="nav-icon">▤</span>Loans</button>
+  <button class="nav-btn" data-page="wallet" onclick="showPage('wallet')"><span class="nav-icon">৳</span>Wallet</button>
+  <button class="nav-btn" data-page="banks" onclick="showPage('banks')"><span class="nav-icon">▣</span>Virtual Bank</button>
+  <button class="nav-btn" data-page="notifications" onclick="showPage('notifications')"><span class="nav-icon">♧</span>Alerts</button>
+  <button class="nav-btn" data-page="profile" onclick="showPage('profile')"><span class="nav-icon">♙</span>Profile</button>
+  <button class="nav-btn" data-page="repayments" onclick="showPage('repayments')"><span class="nav-icon">💸</span>Repay</button>
+  <button class="nav-btn" data-page="transactions" onclick="showPage('transactions')"><span class="nav-icon">🧾</span>History</button>
+  <button class="nav-btn" data-page="announcements" onclick="showPage('announcements')"><span class="nav-icon">📢</span>News</button>
+  <button class="nav-btn" data-page="support" onclick="showPage('support')"><span class="nav-icon">🎧</span>Support</button>
+  <button class="nav-btn" data-page="invite" onclick="showPage('invite')"><span class="nav-icon">👥</span>Invite</button>
+  <button class="nav-btn" data-page="settings" onclick="showPage('settings')"><span class="nav-icon">⚙️</span>Settings</button>
+  <button class="nav-btn" data-page="more" onclick="showPage('more')"><span class="nav-icon">✨</span>More</button>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js">
+document.getElementById("fundSubmitBtn").onclick=async function(){
+  const out=document.getElementById("fundMessage"),sender=document.getElementById("fundSenderNumber").value.trim(),trx=document.getElementById("fundTrxId").value.trim(),amount=Number(document.getElementById("fundAmount").value);
+  if(!currentUser){out.textContent="আগে Login করো।";return;}
+  if(!selectedPayMethod||!sender||!trx||!Number.isFinite(amount)||amount<=0){out.textContent="পেমেন্ট মাধ্যমসহ সব তথ্য পূরণ করো।";return;}
+  const data={type:"add-fund",method:selectedPayMethod,senderNumber:sender,transactionId:trx,amount,status:"Pending",createdAt:Date.now()};
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push(data);out.textContent="Add Fund request জমা হয়েছে। Admin যাচাই করবে।";out.className="success";["fundSenderNumber","fundTrxId","fundAmount"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
 };
-
-firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
-const db = firebase.database();
-
-const authBox = document.getElementById("authBox");
-const appBox = document.getElementById("appBox");
-const message = document.getElementById("message");
-
-let currentUser = null;
-let applicationsListener = null;
-
-
-// SAFE TEXT
-
-function safe(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[c]);
-}
-
-
-// REGISTER
-
-document.getElementById("registerBtn").onclick =
-async function() {
-
-  message.textContent = "";
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (!email || password.length < 6) {
-    message.textContent =
-      "Email দাও এবং কমপক্ষে ৬ অক্ষরের Password দাও।";
-    return;
-  }
-
-  try {
-    await auth.createUserWithEmailAndPassword(email, password);
-    message.textContent = "Account তৈরি হয়েছে!";
-    message.className = "success";
-  } catch (error) {
-    message.textContent = error.message;
-    message.className = "";
-  }
+document.getElementById("sendSubmitBtn").onclick=async function(){
+  const out=document.getElementById("sendMessage"),receiver=document.getElementById("sendReceiver").value.trim().toLowerCase(),amount=Number(document.getElementById("sendAmount").value),note=document.getElementById("sendNote").value.trim();
+  if(!currentUser||!receiver||!Number.isFinite(amount)||amount<=0){out.textContent="সঠিক তথ্য পূরণ করো।";return;}
+  if(receiver===(currentUser.email||"").toLowerCase()){out.textContent="নিজের অ্যাকাউন্টে পাঠানো যাবে না।";return;}
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push({type:"send-money",receiverEmail:receiver,amount,note,status:"Pending",createdAt:Date.now()});out.textContent="Send Money request Admin-এর কাছে জমা হয়েছে।";out.className="success";["sendReceiver","sendAmount","sendNote"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
 };
-
-
-// LOGIN
-
-document.getElementById("loginBtn").onclick =
-async function() {
-
-  message.textContent = "";
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (!email || !password) {
-    message.textContent = "Email ও Password দাও।";
-    return;
-  }
-
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-  } catch (error) {
-    message.textContent = error.message;
-  }
+document.getElementById("cashoutSubmitBtn").onclick=async function(){
+  const out=document.getElementById("cashoutMessage"),method=document.getElementById("cashoutMethod").value,number=document.getElementById("cashoutNumber").value.trim(),amount=Number(document.getElementById("cashoutAmount").value);
+  if(!currentUser||!number||!Number.isFinite(amount)||amount<=0){out.textContent="সব তথ্য সঠিকভাবে পূরণ করো।";return;}
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push({type:"cash-out",method,accountNumber:number,amount,status:"Pending",createdAt:Date.now()});out.textContent="Cash Out request Admin-এর কাছে জমা হয়েছে।";out.className="success";["cashoutNumber","cashoutAmount"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
 };
-
-
-// AUTH STATE
-
-auth.onAuthStateChanged(user => {
-
-  currentUser = user;
-
-  if (user) {
-
-    authBox.classList.add("hidden");
-    appBox.classList.remove("hidden");
-
-    document.getElementById("userEmail").textContent =
-      "Logged in: " + user.email;
-
-    loadApplications(user.uid);
-
-  } else {
-
-    authBox.classList.remove("hidden");
-    appBox.classList.add("hidden");
-
-    document.getElementById("myApplications").innerHTML = "";
-
-    if (applicationsListener) {
-      applicationsListener.off();
-      applicationsListener = null;
-    }
-  }
-
-});
-
-
-// LOGOUT
-
-document.getElementById("logoutBtn").onclick =
-function() {
-  auth.signOut();
+document.getElementById("npsbSubmitBtn").onclick=async function(){
+  const out=document.getElementById("npsbMessage");
+  const fromBank=document.getElementById("npsbFromBank").value.trim(),fromAccount=document.getElementById("npsbFromAccount").value.trim(),toBank=document.getElementById("npsbToBank").value.trim(),receiverName=document.getElementById("npsbReceiverName").value.trim(),toAccount=document.getElementById("npsbToAccount").value.trim(),amount=Number(document.getElementById("npsbAmount").value),note=document.getElementById("npsbNote").value.trim();
+  if(!currentUser){out.textContent="আগে Login করো।";return;}
+  if(!fromBank||!fromAccount||!toBank||!receiverName||!toAccount||!Number.isFinite(amount)||amount<=0){out.textContent="সব প্রয়োজনীয় তথ্য সঠিকভাবে পূরণ করো।";return;}
+  if(fromAccount===toAccount&&fromBank.toLowerCase()===toBank.toLowerCase()){out.textContent="একই অ্যাকাউন্টে ট্রান্সফার রিকোয়েস্ট করা যাবে না।";return;}
+  const btn=this;btn.disabled=true;
+  try{
+    await db.ref("walletRequests/"+currentUser.uid).push({type:"npsb-transfer",network:"NPSB",fromBank,fromAccount,toBank,receiverName,toAccount,amount,note,status:"Pending",createdAt:Date.now()});
+    out.textContent="NPSB Transfer request Admin-এর কাছে জমা হয়েছে। এটি এখনো সম্পন্ন ট্রান্সফার নয়।";out.className="success";
+    ["npsbFromBank","npsbFromAccount","npsbToBank","npsbReceiverName","npsbToAccount","npsbAmount","npsbNote"].forEach(id=>document.getElementById(id).value="");
+  }catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
 };
-
-
-// SUBMIT LOAN APPLICATION
-
-document.getElementById("submitBtn").onclick =
-async function() {
-
-  const submitMessage =
-    document.getElementById("submitMessage");
-
-  if (!currentUser) {
-    submitMessage.textContent = "আগে Login করো।";
-    return;
-  }
-
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const amount = Number(document.getElementById("amount").value);
-  const duration = document.getElementById("duration").value;
-  const reason = document.getElementById("reason").value.trim();
-
-  if (!name || !phone || !duration || !reason ||
-      !Number.isFinite(amount)) {
-    submitMessage.textContent = "সব তথ্য পূরণ করো।";
-    return;
-  }
-
-  if (name.length > 80 || phone.length < 10 ||
-      phone.length > 20 || amount <= 0 ||
-      amount > 1000000 || reason.length > 500) {
-    submitMessage.textContent = "তথ্যগুলো সঠিকভাবে দাও।";
-    return;
-  }
-
-  const data = {
-    name: name,
-    phone: phone,
-    amount: amount,
-    duration: duration,
-    reason: reason,
-    status: "Pending",
-    createdAt: Date.now()
-  };
-
-  const submitBtn = document.getElementById("submitBtn");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting...";
-
-  try {
-
-    await db.ref("applications/" + currentUser.uid)
-      .push(data);
-
-    submitMessage.textContent =
-      "Application Submitted! Status: Pending";
-
-    submitMessage.className = "success";
-
-    document.getElementById("name").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("amount").value = "";
-    document.getElementById("duration").value = "";
-    document.getElementById("reason").value = "";
-
-  } catch (error) {
-
-    submitMessage.textContent =
-      "Error: " + error.message;
-
-    submitMessage.className = "";
-
-  } finally {
-
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit Application";
-
-  }
-};
-
-
-// LOAD MY APPLICATIONS
-
-function loadApplications(uid) {
-
-  const list = document.getElementById("myApplications");
-
-  if (applicationsListener) {
-    applicationsListener.off();
-  }
-
-  applicationsListener = db.ref("applications/" + uid);
-
-  applicationsListener.on("value", snapshot => {
-
-    list.innerHTML = "";
-
-    if (!snapshot.exists()) {
-      list.textContent = "এখনো কোনো আবেদন করোনি।";
-      return;
-    }
-
-    snapshot.forEach(item => {
-
-      const app = item.val();
-
-      const card = document.createElement("div");
-      card.className = "application";
-
-      card.innerHTML = `
-        <p><b>Amount:</b> ৳${safe(app.amount)}</p>
-        <p><b>Duration:</b> ${safe(app.duration)}</p>
-        <p><b>Status:</b>
-          <span class="status">${safe(app.status)}</span>
-        </p>
-        <p class="small">Application ID: ${safe(item.key)}</p>
-      `;
-
-      list.prepend(card);
-
-    });
-
-  }, error => {
-
-    list.textContent = "Error: " + error.message;
-
-  });
-
-}
 
 </script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js">
+document.getElementById("fundSubmitBtn").onclick=async function(){
+  const out=document.getElementById("fundMessage"),sender=document.getElementById("fundSenderNumber").value.trim(),trx=document.getElementById("fundTrxId").value.trim(),amount=Number(document.getElementById("fundAmount").value);
+  if(!currentUser){out.textContent="আগে Login করো।";return;}
+  if(!selectedPayMethod||!sender||!trx||!Number.isFinite(amount)||amount<=0){out.textContent="পেমেন্ট মাধ্যমসহ সব তথ্য পূরণ করো।";return;}
+  const data={type:"add-fund",method:selectedPayMethod,senderNumber:sender,transactionId:trx,amount,status:"Pending",createdAt:Date.now()};
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push(data);out.textContent="Add Fund request জমা হয়েছে। Admin যাচাই করবে।";out.className="success";["fundSenderNumber","fundTrxId","fundAmount"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+document.getElementById("sendSubmitBtn").onclick=async function(){
+  const out=document.getElementById("sendMessage"),receiver=document.getElementById("sendReceiver").value.trim().toLowerCase(),amount=Number(document.getElementById("sendAmount").value),note=document.getElementById("sendNote").value.trim();
+  if(!currentUser||!receiver||!Number.isFinite(amount)||amount<=0){out.textContent="সঠিক তথ্য পূরণ করো।";return;}
+  if(receiver===(currentUser.email||"").toLowerCase()){out.textContent="নিজের অ্যাকাউন্টে পাঠানো যাবে না।";return;}
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push({type:"send-money",receiverEmail:receiver,amount,note,status:"Pending",createdAt:Date.now()});out.textContent="Send Money request Admin-এর কাছে জমা হয়েছে।";out.className="success";["sendReceiver","sendAmount","sendNote"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+document.getElementById("cashoutSubmitBtn").onclick=async function(){
+  const out=document.getElementById("cashoutMessage"),method=document.getElementById("cashoutMethod").value,number=document.getElementById("cashoutNumber").value.trim(),amount=Number(document.getElementById("cashoutAmount").value);
+  if(!currentUser||!number||!Number.isFinite(amount)||amount<=0){out.textContent="সব তথ্য সঠিকভাবে পূরণ করো।";return;}
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push({type:"cash-out",method,accountNumber:number,amount,status:"Pending",createdAt:Date.now()});out.textContent="Cash Out request Admin-এর কাছে জমা হয়েছে।";out.className="success";["cashoutNumber","cashoutAmount"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
 
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js">
+document.getElementById("fundSubmitBtn").onclick=async function(){
+  const out=document.getElementById("fundMessage"),sender=document.getElementById("fundSenderNumber").value.trim(),trx=document.getElementById("fundTrxId").value.trim(),amount=Number(document.getElementById("fundAmount").value);
+  if(!currentUser){out.textContent="আগে Login করো।";return;}
+  if(!selectedPayMethod||!sender||!trx||!Number.isFinite(amount)||amount<=0){out.textContent="পেমেন্ট মাধ্যমসহ সব তথ্য পূরণ করো।";return;}
+  const data={type:"add-fund",method:selectedPayMethod,senderNumber:sender,transactionId:trx,amount,status:"Pending",createdAt:Date.now()};
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push(data);out.textContent="Add Fund request জমা হয়েছে। Admin যাচাই করবে।";out.className="success";["fundSenderNumber","fundTrxId","fundAmount"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+document.getElementById("sendSubmitBtn").onclick=async function(){
+  const out=document.getElementById("sendMessage"),receiver=document.getElementById("sendReceiver").value.trim().toLowerCase(),amount=Number(document.getElementById("sendAmount").value),note=document.getElementById("sendNote").value.trim();
+  if(!currentUser||!receiver||!Number.isFinite(amount)||amount<=0){out.textContent="সঠিক তথ্য পূরণ করো।";return;}
+  if(receiver===(currentUser.email||"").toLowerCase()){out.textContent="নিজের অ্যাকাউন্টে পাঠানো যাবে না।";return;}
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push({type:"send-money",receiverEmail:receiver,amount,note,status:"Pending",createdAt:Date.now()});out.textContent="Send Money request Admin-এর কাছে জমা হয়েছে।";out.className="success";["sendReceiver","sendAmount","sendNote"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+document.getElementById("cashoutSubmitBtn").onclick=async function(){
+  const out=document.getElementById("cashoutMessage"),method=document.getElementById("cashoutMethod").value,number=document.getElementById("cashoutNumber").value.trim(),amount=Number(document.getElementById("cashoutAmount").value);
+  if(!currentUser||!number||!Number.isFinite(amount)||amount<=0){out.textContent="সব তথ্য সঠিকভাবে পূরণ করো।";return;}
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push({type:"cash-out",method,accountNumber:number,amount,status:"Pending",createdAt:Date.now()});out.textContent="Cash Out request Admin-এর কাছে জমা হয়েছে।";out.className="success";["cashoutNumber","cashoutAmount"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+
+</script>
+<script>
+const firebaseConfig={
+  apiKey:"AIzaSyAVWtZwiP7gR6QZWTne0br9R5_dnbgE5qk",
+  authDomain:"planning-with-ai-12481.firebaseapp.com",
+  databaseURL:"https://planning-with-ai-12481-default-rtdb.firebaseio.com",
+  projectId:"planning-with-ai-12481",
+  storageBucket:"planning-with-ai-12481.firebasestorage.app",
+  messagingSenderId:"1064415862580",
+  appId:"1:1064415862580:web:836ee2f4187cff962c8f61"
+};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth(),db=firebase.database();
+const authBox=document.getElementById("authBox"),appBox=document.getElementById("appBox"),bottomNav=document.getElementById("bottomNav"),message=document.getElementById("message");
+let currentUser=null,applicationsListener=null,selectedBank="";
+function safe(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+const pages=["home","tools","apply","loans","notifications","wallet","banks","bank-details","bank-apply","profile","repayments","transactions","announcements","support","invite","settings","more"];
+function showPage(page){
+  if(page!=="more" && typeof stopQrScanner==="function") stopQrScanner();
+  if(!pages.includes(page))return;
+  pages.forEach(name=>document.getElementById("page-"+name).classList.toggle("hidden",name!==page));
+  document.querySelectorAll(".nav-btn").forEach(btn=>{const activePage=page.startsWith("bank-")?"banks":page;btn.classList.toggle("active",btn.dataset.page===activePage);});
+  window.scrollTo(0,0);
+}
+let selectedPayMethod="";
+function walletMode(mode){
+  ["addFundPanel","sendMoneyPanel","cashoutPanel","npsbPanel"].forEach(id=>document.getElementById(id).classList.add("hidden"));
+  const target={add:"addFundPanel",send:"sendMoneyPanel",cashout:"cashoutPanel",npsb:"npsbPanel"}[mode];
+  if(target)document.getElementById(target).classList.remove("hidden");
+}
+function selectPayMethod(method){
+  selectedPayMethod=method;
+  ["bKash","Nagad","Rocket"].forEach(x=>document.getElementById("method-"+x).classList.toggle("selected",x===method));
+  document.getElementById("selectedMethodTitle").textContent=method+" Payment";
+  document.getElementById("configuredPayNumber").textContent="এখনো নম্বর সেট করা হয়নি";
+  db.ref("paymentSettings/"+method+"/number").once("value").then(snap=>{
+    const n=snap.val();document.getElementById("configuredPayNumber").textContent=n||"এখনো নম্বর সেট করা হয়নি";
+  }).catch(()=>{});
+}
+function loadWallet(uid){
+  db.ref("wallet/"+uid+"/balance").on("value",snap=>{
+    const amount=Number(snap.val())||0;document.getElementById("walletBalance").textContent=amount.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2});
+  });
+}
+const bankInfo={
+ "City Bank":{initials:"CB",label:"CITY BANK",color:"#e02b3b",logo:"https://www.google.com/s2/favicons?domain=citybankplc.com&sz=128"},
+ "Prime Bank":{initials:"PB",label:"PRIME BANK",color:"#0d7774",logo:"https://www.google.com/s2/favicons?domain=primebank.com.bd&sz=128"},
+ "Trust Bank":{initials:"TB",label:"TRUST BANK",color:"#164b91",logo:"https://www.google.com/s2/favicons?domain=tblbd.com&sz=128"},
+ "BRAC Bank":{initials:"BB",label:"BRAC BANK",color:"#7b1e32",logo:"https://www.google.com/s2/favicons?domain=bracbank.com&sz=128"}
+};
+function openBank(bank){
+  if(!bankInfo[bank])return;selectedBank=bank;const info=bankInfo[bank];
+  document.getElementById("bankDetailContent").innerHTML=`
+    <div class="detail-logo"><img src="${info.logo}" alt="${safe(bank)} logo"></div>
+    <h2 class="bank-detail-title">${safe(bank)}</h2>
+    <p class="small">${safe(bank)} - Virtual Bank</p>
+    <button class="primary" onclick="openBankApply()">Continue</button>`;
+  showPage("bank-details");
+}
+function openBankApply(){if(!selectedBank)return;document.getElementById("bankApplyTitle").textContent=selectedBank+" - Virtual Bank";document.getElementById("bankMessage").textContent="";showPage("bank-apply");}
+document.getElementById("registerBtn").onclick=async function(){
+  message.textContent="";const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
+  if(!email||password.length<6){message.textContent="Email দাও এবং কমপক্ষে ৬ অক্ষরের Password দাও।";return;}
+  try{await auth.createUserWithEmailAndPassword(email,password);}catch(error){message.textContent=error.message;}
+};
+document.getElementById("loginBtn").onclick=async function(){
+  message.textContent="";const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
+  if(!email||!password){message.textContent="Email ও Password দাও।";return;}
+  try{await auth.signInWithEmailAndPassword(email,password);}catch(error){message.textContent=error.message;}
+};
+auth.onAuthStateChanged(async user=>{
+  currentUser=user;
+  if(user){
+    authBox.classList.add("hidden");appBox.classList.add("hidden");bottomNav.classList.add("hidden");
+    document.getElementById("userEmail").textContent=user.email||"";document.getElementById("homeEmail").textContent="Logged in: "+(user.email||"");
+    await requirePinGate(user);
+  }else{
+    closePinOverlay();authBox.classList.remove("hidden");appBox.classList.add("hidden");bottomNav.classList.add("hidden");
+    if(applicationsListener){applicationsListener.off("value");applicationsListener=null;}
+    document.getElementById("myApplications").innerHTML="";
+  }
+});
+document.getElementById("logoutBtn").onclick=()=>auth.signOut();
+let profilePhotoData="";
+document.getElementById("profilePhoto").addEventListener("change",function(){
+  const file=this.files&&this.files[0],out=document.getElementById("profileMessage");if(!file)return;
+  if(!file.type.startsWith("image/")){out.textContent="শুধু ছবির ফাইল নির্বাচন করো।";this.value="";return;}
+  if(file.size>8*1024*1024){out.textContent="ছবিটি ৮ MB-এর মধ্যে রাখো।";this.value="";return;}
+  const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const canvas=document.createElement("canvas"),max=480,scale=Math.min(1,max/Math.max(img.width,img.height));canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);profilePhotoData=canvas.toDataURL("image/jpeg",0.72);document.getElementById("profilePreview").src=profilePhotoData;out.textContent="ছবি যোগ হয়েছে। Save Profile চাপো।";};img.onerror=()=>out.textContent="ছবিটি পড়া যায়নি।";img.src=reader.result;};reader.readAsDataURL(file);
+});
+async function loadProfile(uid){try{const snap=await db.ref("users/"+uid+"/profile").once("value"),d=snap.val()||{};document.getElementById("profileName").value=d.name||"";document.getElementById("profilePhone").value=d.phone||"";document.getElementById("profileDob").value=d.dob||"";document.getElementById("profileAddress").value=d.address||"";profilePhotoData=d.photo||"";if(profilePhotoData)document.getElementById("profilePreview").src=profilePhotoData;}catch(e){document.getElementById("profileMessage").textContent="Profile load error: "+e.message;}}
+document.getElementById("saveProfileBtn").onclick=async function(){
+  if(!currentUser){document.getElementById("profileMessage").textContent="আগে Login করো।";return;}
+  const data={name:document.getElementById("profileName").value.trim(),phone:document.getElementById("profilePhone").value.trim(),dob:document.getElementById("profileDob").value,address:document.getElementById("profileAddress").value.trim(),photo:profilePhotoData,updatedAt:Date.now()};
+  if(data.name.length>80||data.phone.length>20||data.address.length>300){document.getElementById("profileMessage").textContent="তথ্য সঠিকভাবে দাও।";return;}
+  const btn=this;btn.disabled=true;try{await db.ref("users/"+currentUser.uid+"/profile").update(data);document.getElementById("profileMessage").textContent="Profile সফলভাবে Save হয়েছে।";document.getElementById("profileMessage").className="success";}catch(e){document.getElementById("profileMessage").textContent="Save error: "+e.message+" | Firebase Rules check করো।";}finally{btn.disabled=false;}
+};
+function loadApplications(uid){
+  if(applicationsListener)applicationsListener.off("value");
+  applicationsListener=db.ref("applications/"+uid);
+  applicationsListener.on("value",snapshot=>{
+    const data=snapshot.val()||{},list=Object.entries(data).map(([id,item])=>({id,...item}));
+    list.sort((a,b)=>(Number(b.createdAt)||0)-(Number(a.createdAt)||0));
+    document.getElementById("totalCount").textContent=list.length;
+    document.getElementById("pendingCount").textContent=list.filter(x=>x.status==="Pending").length;
+    document.getElementById("approvedCount").textContent=list.filter(x=>x.status==="Approved").length;
+    document.getElementById("rejectedCount").textContent=list.filter(x=>x.status==="Rejected").length;
+    renderApplications(list);renderNotifications(list);
+  },error=>{document.getElementById("myApplications").textContent="Error: "+error.message;});
+}
+function renderApplications(list){
+  const box=document.getElementById("myApplications");
+  if(!list.length){box.innerHTML='<div class="empty">You have no applications yet.</div>';return;}
+  box.innerHTML=list.map(item=>{
+    const status=["Pending","Approved","Rejected"].includes(item.status)?item.status:"Pending",date=item.createdAt?new Date(Number(item.createdAt)).toLocaleString():"Date unavailable";
+    return `<div class="application"><p><b>Application ID:</b> ${safe(item.id)}</p><p><b>Name:</b> ${safe(item.name)}</p><p><b>Phone:</b> ${safe(item.phone)}</p><p><b>Amount:</b> ৳${safe(item.amount)}</p><p><b>Duration:</b> ${safe(item.duration)}</p><p><b>Per Due:</b> ${safe(item.perDue||"Not specified")}</p><p><b>Purpose:</b> ${safe(item.reason)}</p><p><b>Date:</b> ${safe(date)}</p><p><b>Status:</b> <span class="status ${status}">${safe(status)}</span></p></div>`;
+  }).join("");
+}
+function renderNotifications(list){
+  const box=document.getElementById("notificationBox"),updates=list.filter(item=>item.status==="Approved"||item.status==="Rejected");
+  if(!updates.length){box.innerHTML='<div class="empty">No new notifications.</div>';return;}
+  box.innerHTML=updates.map(item=>{const title=item.status==="Approved"?"Application Approved":"Application Rejected";return `<div class="application"><p><b>${safe(title)}</b></p><p class="small">Your application status has been updated.</p><p><b>Application:</b> ${safe(item.id)}</p><p><b>Amount:</b> ৳${safe(item.amount)}</p></div>`;}).join("");
+}
+document.getElementById("submitBtn").onclick=async function(){
+  const output=document.getElementById("submitMessage");if(!currentUser){output.textContent="আগে Login করো।";return;}
+  const name=document.getElementById("name").value.trim(),phone=document.getElementById("phone").value.trim(),amount=Number(document.getElementById("amount").value),duration=document.getElementById("duration").value,perDue=document.getElementById("perDue").value,reason=document.getElementById("reason").value.trim();
+  const allowedDurations=["1 Month","3 Months","6 Months","12 Months"],allowedDue=["Daily","Weekly","Monthly"];
+  if(!name||!phone||!duration||!perDue||!reason||!Number.isFinite(amount)){output.textContent="সব তথ্য পূরণ করো।";return;}
+  if(name.length>80||phone.length<10||phone.length>20||amount<500||amount>25000||reason.length>500||!allowedDurations.includes(duration)||!allowedDue.includes(perDue)){output.textContent="সঠিক তথ্য দাও। Amount ৳500 থেকে ৳25,000 হতে হবে।";return;}
+  const data={name,phone,amount,duration,perDue,reason,status:"Pending",createdAt:Date.now()},btn=document.getElementById("submitBtn");
+  btn.disabled=true;btn.textContent="Submitting...";output.textContent="";output.className="";
+  try{await db.ref("applications/"+currentUser.uid).push(data);output.textContent="Application Submitted! Status: Pending";output.className="success";["name","phone","amount","duration","perDue","reason"].forEach(id=>document.getElementById(id).value="");showPage("loans");}
+  catch(error){output.textContent="Error: "+error.message;}
+  finally{btn.disabled=false;btn.textContent="Submit Application";}
+};
+document.getElementById("bankSubmitBtn").onclick=async function(){
+  const output=document.getElementById("bankMessage");if(!currentUser){output.textContent="আগে Login করো।";return;}if(!bankInfo[selectedBank]){output.textContent="Bank নির্বাচন করো।";return;}
+  const name=document.getElementById("bankName").value.trim(),phone=document.getElementById("bankPhone").value.trim(),amount=Number(document.getElementById("bankAmount").value),loanNumber=document.getElementById("bankLoanNumber").value.trim();
+  if(!name||!phone||!Number.isFinite(amount)||amount<=0||!loanNumber){output.textContent="সব তথ্য পূরণ করো।";return;}
+  if(name.length>80||phone.length<10||phone.length>20||amount>100000000||loanNumber.length>50){output.textContent="সঠিক তথ্য দাও।";return;}
+  const data={bankName:selectedBank,name,phone,amount,loanNumber,status:"Pending",createdAt:Date.now()},btn=document.getElementById("bankSubmitBtn");
+  btn.disabled=true;btn.textContent="Submitting...";output.textContent="";output.className="";
+  try{await db.ref("bankEnquiries/"+currentUser.uid).push(data);output.textContent="তথ্য জমা হয়েছে।";output.className="success";["bankName","bankPhone","bankAmount","bankLoanNumber"].forEach(id=>document.getElementById(id).value="");}
+  catch(error){output.textContent="Error: "+error.message+" | Firebase Rules আপডেট প্রয়োজন হতে পারে।";}
+  finally{btn.disabled=false;btn.textContent="Submit";}
+};
+
+document.getElementById("fundSubmitBtn").onclick=async function(){
+  const out=document.getElementById("fundMessage"),sender=document.getElementById("fundSenderNumber").value.trim(),trx=document.getElementById("fundTrxId").value.trim(),amount=Number(document.getElementById("fundAmount").value);
+  if(!currentUser){out.textContent="আগে Login করো।";return;}
+  if(!selectedPayMethod||!sender||!trx||!Number.isFinite(amount)||amount<=0){out.textContent="পেমেন্ট মাধ্যমসহ সব তথ্য পূরণ করো।";return;}
+  const data={type:"add-fund",method:selectedPayMethod,senderNumber:sender,transactionId:trx,amount,status:"Pending",createdAt:Date.now()};
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push(data);out.textContent="Add Fund request জমা হয়েছে। Admin যাচাই করবে।";out.className="success";["fundSenderNumber","fundTrxId","fundAmount"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+document.getElementById("sendSubmitBtn").onclick=async function(){
+  const out=document.getElementById("sendMessage"),receiver=document.getElementById("sendReceiver").value.trim().toLowerCase(),amount=Number(document.getElementById("sendAmount").value),note=document.getElementById("sendNote").value.trim();
+  if(!currentUser||!receiver||!Number.isFinite(amount)||amount<=0){out.textContent="সঠিক তথ্য পূরণ করো।";return;}
+  if(receiver===(currentUser.email||"").toLowerCase()){out.textContent="নিজের অ্যাকাউন্টে পাঠানো যাবে না।";return;}
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push({type:"send-money",receiverEmail:receiver,amount,note,status:"Pending",createdAt:Date.now()});out.textContent="Send Money request Admin-এর কাছে জমা হয়েছে।";out.className="success";["sendReceiver","sendAmount","sendNote"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+document.getElementById("cashoutSubmitBtn").onclick=async function(){
+  const out=document.getElementById("cashoutMessage"),method=document.getElementById("cashoutMethod").value,number=document.getElementById("cashoutNumber").value.trim(),amount=Number(document.getElementById("cashoutAmount").value);
+  if(!currentUser||!number||!Number.isFinite(amount)||amount<=0){out.textContent="সব তথ্য সঠিকভাবে পূরণ করো।";return;}
+  const btn=this;btn.disabled=true;
+  try{await db.ref("walletRequests/"+currentUser.uid).push({type:"cash-out",method,accountNumber:number,amount,status:"Pending",createdAt:Date.now()});out.textContent="Cash Out request Admin-এর কাছে জমা হয়েছে।";out.className="success";["cashoutNumber","cashoutAmount"].forEach(id=>document.getElementById(id).value="");}
+  catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+
+
+document.getElementById("npsbSubmitBtn").onclick=async function(){
+  const out=document.getElementById("npsbMessage");
+  const fromBank=document.getElementById("npsbFromBank").value.trim(),fromAccount=document.getElementById("npsbFromAccount").value.trim(),toBank=document.getElementById("npsbToBank").value.trim(),receiverName=document.getElementById("npsbReceiverName").value.trim(),toAccount=document.getElementById("npsbToAccount").value.trim(),amount=Number(document.getElementById("npsbAmount").value),note=document.getElementById("npsbNote").value.trim();
+  if(!currentUser){out.textContent="আগে Login করো।";return;}
+  if(!fromBank||!fromAccount||!toBank||!receiverName||!toAccount||!Number.isFinite(amount)||amount<=0){out.textContent="সব প্রয়োজনীয় তথ্য সঠিকভাবে পূরণ করো।";return;}
+  if(fromAccount===toAccount&&fromBank.toLowerCase()===toBank.toLowerCase()){out.textContent="একই অ্যাকাউন্টে ট্রান্সফার রিকোয়েস্ট করা যাবে না।";return;}
+  const btn=this;btn.disabled=true;
+  try{
+    await db.ref("walletRequests/"+currentUser.uid).push({type:"npsb-transfer",network:"NPSB",fromBank,fromAccount,toBank,receiverName,toAccount,amount,note,status:"Pending",createdAt:Date.now()});
+    out.textContent="NPSB Transfer request Admin-এর কাছে জমা হয়েছে। এটি এখনো সম্পন্ন ট্রান্সফার নয়।";out.className="success";
+    ["npsbFromBank","npsbFromAccount","npsbToBank","npsbReceiverName","npsbToAccount","npsbAmount","npsbNote"].forEach(id=>document.getElementById(id).value="");
+  }catch(e){out.textContent="Error: "+e.message;}
+  finally{btn.disabled=false;}
+};
+
+// Extra feature modules
+let walletRequestsCache={},repaymentCache={};
+function fmtDate(v){return v?new Date(Number(v)).toLocaleString():'Date unavailable';}
+function loadExtraFeatures(uid){
+  loadWalletRequests(uid);loadRepayments(uid);loadAnnouncements();
+  const invite=location.href.split('#')[0];document.getElementById('inviteLink').textContent=invite;
+  const isDark=localStorage.getItem('nishanDark')==='1';document.body.classList.toggle('dark',isDark);updateDarkButton();
+  // PIN gate is handled before the app dashboard is shown.
+}
+function loadWalletRequests(uid){
+  db.ref('walletRequests/'+uid).on('value',snap=>{
+    walletRequestsCache=snap.val()||{};const list=Object.entries(walletRequestsCache).map(([id,v])=>({id,...v})).sort((a,b)=>(Number(b.createdAt)||0)-(Number(a.createdAt)||0));
+    const box=document.getElementById('transactionList');
+    if(!list.length){box.innerHTML='<div class="empty">এখনো কোনো transaction request নেই।</div>';return;}
+    box.innerHTML=list.map(x=>`<div class="application"><p><b>${safe((x.type||'Transaction').replaceAll('-',' ').toUpperCase())}</b></p><p>Amount: ৳${safe(x.amount||0)}</p><p>Method: ${safe(x.method||x.network||x.type||'—')}</p><p>Date: ${safe(fmtDate(x.createdAt))}</p><p>Status: <span class="status ${safe(x.status||'Pending')}">${safe(x.status||'Pending')}</span></p><button class="receipt-btn" onclick="printReceipt('${safe(x.id)}')">🧾 Receipt</button></div>`).join('');
+    renderCombinedNotifications();
+  },e=>{document.getElementById('transactionList').textContent='Load error: '+e.message;});
+}
+function printReceipt(id){const x=walletRequestsCache[id];if(!x)return;const w=window.open('','_blank','width=420,height=620');if(!w){alert('Receipt খুলতে browser popup allow করো।');return;}w.document.write(`<html><head><title>Transaction Receipt</title><style>body{font-family:Arial;padding:24px;color:#243447}h2{color:#287fca}hr{border:0;border-top:1px solid #ddd}p{margin:12px 0}</style></head><body><h2>Nishan Loan App</h2><h3>Transaction Receipt</h3><hr><p><b>Receipt ID:</b> ${safe(id)}</p><p><b>Type:</b> ${safe(x.type||'Transaction')}</p><p><b>Amount:</b> ৳${safe(x.amount||0)}</p><p><b>Method:</b> ${safe(x.method||x.network||'—')}</p><p><b>Status:</b> ${safe(x.status||'Pending')}</p><p><b>Date:</b> ${safe(fmtDate(x.createdAt))}</p><hr><small>This is a record of an in-app request, not proof of a completed bank or mobile-money transfer.</small><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();}
+function loadRepayments(uid){
+  db.ref('applications/'+uid).once('value').then(s=>{const d=s.val()||{},approved=Object.entries(d).filter(([id,x])=>x.status==='Approved');const box=document.getElementById('repaymentLoans');box.innerHTML=approved.length?approved.map(([id,x])=>`<div class="application"><p><b>${safe(x.name||'Loan')}</b></p><p>Application ID: ${safe(id)}</p><p>Approved amount: ৳${safe(x.amount||0)}</p><button class="receipt-btn" onclick="document.getElementById('repayLoanId').value='${safe(id)}'">Select Loan</button></div>`).join(''):'<div class="empty">এখনো Approved Loan পাওয়া যায়নি।</div>';}).catch(e=>document.getElementById('repaymentLoans').textContent=e.message);
+  db.ref('repaymentRequests/'+uid).on('value',s=>{repaymentCache=s.val()||{};const a=Object.entries(repaymentCache).map(([id,x])=>({id,...x})).sort((x,y)=>(y.createdAt||0)-(x.createdAt||0));document.getElementById('repaymentHistory').innerHTML=a.length?a.map(x=>`<div class="application"><p><b>৳${safe(x.amount)}</b> · ${safe(x.method)}</p><p>Loan: ${safe(x.loanId)}</p><p>Reference: ${safe(x.reference||'—')}</p><p>Status: <span class="status">${safe(x.status||'Pending')}</span></p><p>${safe(fmtDate(x.createdAt))}</p></div>`).join(''):'<div class="empty">কোনো repayment request নেই।</div>';}).catch(e=>document.getElementById('repaymentHistory').textContent=e.message);
+}
+document.getElementById('repaySubmit').onclick=async function(){const loanId=document.getElementById('repayLoanId').value.trim(),amount=Number(document.getElementById('repayAmount').value),method=document.getElementById('repayMethod').value,reference=document.getElementById('repayReference').value.trim(),out=document.getElementById('repayMessage');if(!currentUser||!loanId||!Number.isFinite(amount)||amount<=0){out.textContent='Loan ID ও সঠিক Amount দাও।';return;}const b=this;b.disabled=true;try{await db.ref('repaymentRequests/'+currentUser.uid).push({loanId,amount,method,reference,status:'Pending',createdAt:Date.now()});out.textContent='Repayment request Admin-এর কাছে জমা হয়েছে।';out.className='success';document.getElementById('repayAmount').value='';document.getElementById('repayReference').value='';}catch(e){out.textContent='Error: '+e.message;}finally{b.disabled=false;}};
+function loadAnnouncements(){db.ref('announcements').on('value',s=>{const d=s.val()||{},a=Object.entries(d).map(([id,x])=>({id,...x})).sort((x,y)=>(Number(y.createdAt)||0)-(Number(x.createdAt)||0));const box=document.getElementById('announcementList');box.innerHTML=a.length?a.map(x=>`<div class="application"><h4>${safe(x.title||'Announcement')}</h4><p>${safe(x.message||x.body||'')}</p><p class="small">${safe(fmtDate(x.createdAt))}</p></div>`).join(''):'<div class="empty">এখনো কোনো Admin Announcement প্রকাশ করা হয়নি।</div>';renderCombinedNotifications();},e=>document.getElementById('announcementList').textContent='Load error: '+e.message);}
+function renderCombinedNotifications(){const box=document.getElementById('notificationBox');if(!box||!currentUser)return;const arr=[];Object.entries(walletRequestsCache).forEach(([id,x])=>{if(x.status&&x.status!=='Pending')arr.push({title:'Wallet request '+x.status,body:`৳${x.amount||0} · ${x.type||''}`,createdAt:x.createdAt});});db.ref('applications/'+currentUser.uid).once('value').then(s=>{Object.entries(s.val()||{}).forEach(([id,x])=>{if(x.status==='Approved'||x.status==='Rejected')arr.push({title:'Loan application '+x.status,body:`Application ${id} · ৳${x.amount||0}`,createdAt:x.createdAt});});db.ref('announcements').once('value').then(a=>{Object.entries(a.val()||{}).forEach(([id,x])=>arr.push({title:x.title||'Admin Announcement',body:x.message||x.body||'',createdAt:x.createdAt}));if(!arr.length){box.innerHTML='<div class="empty">No new notifications.</div>';return;}box.innerHTML=arr.sort((x,y)=>(Number(y.createdAt)||0)-(Number(x.createdAt)||0)).map(x=>`<div class="application"><b>${safe(x.title)}</b><p>${safe(x.body)}</p><p class="small">${safe(fmtDate(x.createdAt))}</p></div>`).join('');});});}
+document.getElementById('supportSubmit').onclick=async function(){const topic=document.getElementById('supportTopic').value,message=document.getElementById('supportText').value.trim(),out=document.getElementById('supportMessage');if(!currentUser||!message){out.textContent='একটি মেসেজ লিখো।';return;}const b=this;b.disabled=true;try{await db.ref('supportMessages/'+currentUser.uid).push({topic,message,status:'Open',createdAt:Date.now(),email:currentUser.email||''});out.textContent='Support message পাঠানো হয়েছে।';out.className='success';document.getElementById('supportText').value='';}catch(e){out.textContent='Error: '+e.message;}finally{b.disabled=false;}};
+function loadSupport(uid){db.ref('supportMessages/'+uid).on('value',s=>{const d=s.val()||{},a=Object.entries(d).map(([id,x])=>({id,...x})).sort((x,y)=>(y.createdAt||0)-(x.createdAt||0));document.getElementById('supportHistory').innerHTML=a.length?a.map(x=>`<div class="application"><b>${safe(x.topic)}</b><p>${safe(x.message)}</p><p class="small">${safe(x.status||'Open')} · ${safe(fmtDate(x.createdAt))}</p></div>`).join(''):'<div class="empty">এখনো কোনো মেসেজ পাঠাওনি।</div>';});}
+document.getElementById('shareInvite').onclick=async()=>{const url=location.href.split('#')[0];if(navigator.share){try{await navigator.share({title:'Nishan Loan App',text:'এই অ্যাপটি দেখো',url});}catch(e){}}else{document.getElementById('inviteMessage').textContent='Copy Link চাপো।';}};
+document.getElementById('copyInvite').onclick=async()=>{const url=location.href.split('#')[0];try{await navigator.clipboard.writeText(url);document.getElementById('inviteMessage').textContent='Link copied!';}catch(e){document.getElementById('inviteMessage').textContent='এই লিংকটি কপি করো: '+url;}};
+function updateDarkButton(){document.getElementById('darkToggle').textContent=document.body.classList.contains('dark')?'Turn Off Dark Mode':'Turn On Dark Mode';}
+document.getElementById('darkToggle').onclick=()=>{document.body.classList.toggle('dark');localStorage.setItem('nishanDark',document.body.classList.contains('dark')?'1':'0');updateDarkButton();};
+// Smart finance tools: estimates and personal tracker (stored on this device).
+document.getElementById('calculateEmi').onclick=()=>{const p=Number(document.getElementById('emiAmount').value),annual=Number(document.getElementById('emiRate').value),n=Number(document.getElementById('emiMonths').value),out=document.getElementById('emiResult');if(!(p>0&&annual>=0&&n>0)){out.textContent='সঠিক Amount, Rate ও Duration দাও।';return;}const r=annual/1200,emi=r===0?p/n:p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1),total=emi*n;out.innerHTML=`<b>মাসিক কিস্তি: ৳${emi.toLocaleString('en-BD',{maximumFractionDigits:2})}</b><p>মোট পরিশোধ: ৳${total.toLocaleString('en-BD',{maximumFractionDigits:2})}</p><p>আনুমানিক সুদ: ৳${(total-p).toLocaleString('en-BD',{maximumFractionDigits:2})}</p>`;};
+document.getElementById('checkEligibility').onclick=()=>{const income=Number(document.getElementById('eligIncome').value),debt=Number(document.getElementById('eligDebt').value),loan=Number(document.getElementById('eligLoan').value),out=document.getElementById('eligResult');if(!(income>0&&debt>=0&&loan>0)){out.textContent='সঠিক আয়, বর্তমান ঋণ ও প্রয়োজনীয় Amount দাও।';return;}const estimatedMonthly=loan/12,ratio=(debt+estimatedMonthly)/income;let msg=ratio<=.35?'আপনার দেওয়া তথ্য অনুযায়ী প্রাথমিক হিসাব তুলনামূলক স্বস্তিদায়ক।':ratio<=.5?'মাসিক দায় কিছুটা বেশি হতে পারে।':'মাসিক দায় আয়ের তুলনায় বেশি হতে পারে।';out.innerHTML=`<b>${msg}</b><p>আনুমানিক দায়-আয়ের অনুপাত: ${(ratio*100).toFixed(1)}%</p><p class="small">এটি কোনো ঋণ অনুমোদন, ক্রেডিট স্কোর বা নিশ্চয়তা নয়। প্রকৃত সিদ্ধান্ত ঋণদাতা নেবেন।</p>`;};
+function trackerKey(){return 'nishanMoneyTracker_'+(currentUser?.uid||'guest');}
+function renderTracker(){const rows=JSON.parse(localStorage.getItem(trackerKey())||'[]'),income=rows.filter(x=>x.type==='income').reduce((a,x)=>a+x.amount,0),expense=rows.filter(x=>x.type==='expense').reduce((a,x)=>a+x.amount,0),box=document.getElementById('trackerSummary');box.innerHTML=`<b>আয়: ৳${income.toLocaleString('en-BD')}</b><p>খরচ: ৳${expense.toLocaleString('en-BD')}</p><p>অবশিষ্ট: ৳${(income-expense).toLocaleString('en-BD')}</p>`+(rows.length?rows.slice().reverse().map(x=>`<div class="tx">${x.type==='income'?'আয়':'খরচ'} · ৳${x.amount.toLocaleString('en-BD')} · ${safe(x.note||'—')} <span class="small">${safe(new Date(x.time).toLocaleDateString())}</span></div>`).join(''):'<p class="small">এখনো কোনো হিসাব যোগ করা হয়নি।</p>');}
+document.getElementById('addTrackerEntry').onclick=()=>{const amount=Number(document.getElementById('trackerAmount').value),type=document.getElementById('trackerType').value,note=document.getElementById('trackerNote').value.trim();if(!(amount>0)){alert('সঠিক Amount দাও।');return;}const rows=JSON.parse(localStorage.getItem(trackerKey())||'[]');rows.push({amount,type,note,time:Date.now()});localStorage.setItem(trackerKey(),JSON.stringify(rows.slice(-200)));document.getElementById('trackerAmount').value='';document.getElementById('trackerNote').value='';renderTracker();};
+document.getElementById('printStatement').onclick=async()=>{if(!currentUser)return;const [apps,wallet]=await Promise.all([db.ref('applications/'+currentUser.uid).once('value'),db.ref('wallet/'+currentUser.uid+'/balance').once('value')]);const rows=Object.entries(apps.val()||{}).map(([id,x])=>`<tr><td>${safe(id)}</td><td>৳${Number(x.amount||0).toLocaleString('en-BD')}</td><td>${safe(x.status||'Pending')}</td><td>${safe(fmtDate(x.createdAt))}</td></tr>`).join('');const w=window.open('','_blank');if(!w){alert('Print window খুলতে অনুমতি দাও।');return;}w.document.write(`<html><head><title>Nishan Loan Statement</title><style>body{font-family:Arial;padding:24px;color:#24364a}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ccd6e0;padding:9px;text-align:left}</style></head><body><h2>Nishan Loan App — Account Statement</h2><p>Account: ${safe(currentUser.email||'')}</p><p>Generated: ${new Date().toLocaleString()}</p><h3>Wallet Balance: ৳${Number(wallet.val()||0).toLocaleString('en-BD')}</h3><h3>Loan Applications</h3><table><tr><th>ID</th><th>Amount</th><th>Status</th><th>Date</th></tr>${rows||'<tr><td colspan="4">No applications</td></tr>'}</table><p style="margin-top:24px;font-size:12px">This statement is generated from app records and is not a bank statement.</p><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();};
+// Device PIN security: first login requires setup; each fresh app load requires unlock.
+function pinStorageKey(uid){return 'nishanPinV2_'+uid;}
+function bytesToHex(bytes){return Array.from(bytes).map(b=>b.toString(16).padStart(2,'0')).join('');}
+async function hashPin(pin,saltHex){
+  const salt=new Uint8Array(saltHex.match(/.{2}/g).map(x=>parseInt(x,16)));
+  const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveBits']);
+  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt,iterations:150000,hash:'SHA-256'},key,256);
+  return bytesToHex(new Uint8Array(bits));
+}
+async function savePinHash(uid,pin){
+  const salt=crypto.getRandomValues(new Uint8Array(16));
+  const saltHex=bytesToHex(salt),hash=await hashPin(pin,saltHex);
+  localStorage.setItem(pinStorageKey(uid),JSON.stringify({salt:saltHex,hash}));
+}
+async function verifyPin(uid,pin){
+  try{const saved=JSON.parse(localStorage.getItem(pinStorageKey(uid))||'null');if(!saved||!saved.salt||!saved.hash)return false;return (await hashPin(pin,saved.salt))===saved.hash;}catch(e){return false;}
+}
+function closePinOverlay(){const old=document.getElementById('pinOverlay');if(old)old.remove();}
+function openAppAfterPin(user){
+  closePinOverlay();if(!currentUser||currentUser.uid!==user.uid)return;
+  appBox.classList.remove('hidden');bottomNav.classList.remove('hidden');showPage('home');
+  loadApplications(user.uid);loadWallet(user.uid);loadProfile(user.uid);loadExtraFeatures(user.uid);renderTracker();
+}
+async function requirePinGate(user){
+  const key=pinStorageKey(user.uid),saved=localStorage.getItem(key);
+  closePinOverlay();
+  const d=document.createElement('div');d.id='pinOverlay';d.className='pin-overlay';
+  if(!saved){
+    d.innerHTML='<div class="pin-card"><div style="font-size:42px">🔐</div><h2>Set Your Security PIN</h2><p>প্রথমবারের জন্য ৬ সংখ্যার PIN তৈরি করো। পরেরবার অ্যাপ খুললে এই PIN লাগবে।</p><input id="newPin" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="নতুন ৬ সংখ্যার PIN"><input id="confirmPin" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="আবার PIN দাও"><button class="primary" id="createPinBtn">Set PIN & Continue</button><p id="pinGateMessage"></p></div>';
+    document.body.appendChild(d);
+    document.getElementById('createPinBtn').onclick=async()=>{const pin=document.getElementById('newPin').value,confirmPin=document.getElementById('confirmPin').value,msg=document.getElementById('pinGateMessage'),btn=document.getElementById('createPinBtn');if(!/^\d{6}$/.test(pin)){msg.textContent='ঠিক ৬ সংখ্যার PIN দাও।';return;}if(pin!==confirmPin){msg.textContent='দুইটি PIN মিলছে না।';return;}btn.disabled=true;try{await savePinHash(user.uid,pin);openAppAfterPin(user);}catch(e){msg.textContent='PIN সেট করা যায়নি। আবার চেষ্টা করো।';btn.disabled=false;}};
+  }else{
+    d.innerHTML='<div class="pin-card"><div style="font-size:42px">🔒</div><h2>Welcome Back</h2><p>অ্যাপ খুলতে তোমার ৬ সংখ্যার Security PIN দাও।</p><input id="unlockPin" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password" placeholder="৬ সংখ্যার PIN"><button class="primary" id="unlockPinBtn">Unlock App</button><p id="unlockPinMsg"></p></div>';
+    document.body.appendChild(d);
+    const attempt=async()=>{const pin=document.getElementById('unlockPin').value,msg=document.getElementById('unlockPinMsg'),btn=document.getElementById('unlockPinBtn');if(!/^\d{6}$/.test(pin)){msg.textContent='৬ সংখ্যার PIN দাও।';return;}btn.disabled=true;if(await verifyPin(user.uid,pin)){openAppAfterPin(user);}else{msg.textContent='PIN সঠিক নয়। আবার চেষ্টা করো।';document.getElementById('unlockPin').value='';btn.disabled=false;}};
+    document.getElementById('unlockPinBtn').onclick=attempt;
+    document.getElementById('unlockPin').addEventListener('keydown',e=>{if(e.key==='Enter')attempt();});
+  }
+}
+document.getElementById('savePin').onclick=async()=>{const pin=document.getElementById('pinInput').value,out=document.getElementById('pinMessage');if(!currentUser){out.textContent='আগে Login করো।';return;}if(!/^\d{6}$/.test(pin)){out.textContent='ঠিক ৬ সংখ্যার PIN দাও।';return;}try{await savePinHash(currentUser.uid,pin);document.getElementById('pinInput').value='';out.textContent='Security PIN সফলভাবে Update হয়েছে।';out.className='success';}catch(e){out.textContent='PIN update করা যায়নি।';}};
+document.getElementById('removePin').onclick=()=>{if(!currentUser)return;const pin=prompt('বর্তমান ৬ সংখ্যার PIN দাও:');if(pin===null)return;verifyPin(currentUser.uid,pin).then(ok=>{const out=document.getElementById('pinMessage');if(ok){localStorage.removeItem(pinStorageKey(currentUser.uid));out.textContent='PIN সরানো হয়েছে। পরেরবার Login করলে নতুন PIN সেট করতে হবে।';}else out.textContent='বর্তমান PIN সঠিক নয়।';});};
+// Load support history after authentication.
+const _oldLoadExtraFeatures=loadExtraFeatures;loadExtraFeatures=function(uid){_oldLoadExtraFeatures(uid);loadSupport(uid);};
+
+// Seven requested add-ons: QR scan, savings goal, activity estimate, support thread,
+// membership card, transaction filters, and theme presets.
+let qrStream=null, qrTimer=null;
+function stopQrScanner(){if(qrTimer){clearInterval(qrTimer);qrTimer=null;}if(qrStream){qrStream.getTracks().forEach(t=>t.stop());qrStream=null;}const v=document.getElementById('qrVideo');if(v){v.pause();v.srcObject=null;v.style.display='none';}const b=document.getElementById('stopQr');if(b)b.style.display='none';}
+document.getElementById('startQr').onclick=async()=>{const out=document.getElementById('qrResult'),video=document.getElementById('qrVideo');if(!('BarcodeDetector' in window)){out.textContent='এই browser-এ QR camera scanning সমর্থিত নয়। অন্য QR scanner ব্যবহার করে text এখানে paste করো।';return;}try{const detector=new BarcodeDetector({formats:['qr_code']});qrStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});video.srcObject=qrStream;video.style.display='block';await video.play();document.getElementById('stopQr').style.display='block';out.textContent='ক্যামেরার সামনে QR কোড ধরো...';qrTimer=setInterval(async()=>{try{if(video.readyState>=2){const codes=await detector.detect(video);if(codes.length){out.textContent='QR Content: '+codes[0].rawValue;stopQrScanner();}}}catch(e){}},500);}catch(e){out.textContent='ক্যামেরা চালু হয়নি: '+e.message+'। Camera permission দাও অথবা QR text paste করো।';stopQrScanner();}};
+document.getElementById('stopQr').onclick=stopQrScanner;
+document.getElementById('readQrManual').onclick=()=>{const v=document.getElementById('qrManual').value.trim();document.getElementById('qrResult').textContent=v?'QR Content: '+v:'আগে QR text paste করো।';};
+function savingsKey(){return 'nishanSavings_'+(currentUser?.uid||'guest');}
+function renderSavings(){const d=JSON.parse(localStorage.getItem(savingsKey())||'null'),box=document.getElementById('savingProgress');if(!d){box.textContent='এখনো কোনো লক্ষ্য সেট করা হয়নি।';return;}const pct=Math.min(100,d.target?d.current/d.target*100:0);box.innerHTML=`<b>${safe(d.name||'Savings Goal')}</b><p>৳${Number(d.current).toLocaleString('en-BD')} / ৳${Number(d.target).toLocaleString('en-BD')}</p><div style="height:12px;border-radius:20px;background:#e8eff6;overflow:hidden"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#55a9e8,#f28db5)"></div></div><p>${pct.toFixed(1)}% complete</p>`;}
+document.getElementById('saveGoal').onclick=()=>{const name=document.getElementById('savingName').value.trim(),target=Number(document.getElementById('savingTarget').value),current=Number(document.getElementById('savingCurrent').value||0);if(!name||!(target>0)||current<0){alert('Goal name এবং সঠিক টাকার পরিমাণ দাও।');return;}localStorage.setItem(savingsKey(),JSON.stringify({name,target,current}));renderSavings();};
+async function renderActivityScore(){const box=document.getElementById('activityScore');if(!currentUser){box.textContent='Login প্রয়োজন।';return;}try{const [a,r]=await Promise.all([db.ref('applications/'+currentUser.uid).once('value'),db.ref('repaymentRequests/'+currentUser.uid).once('value')]);const apps=Object.values(a.val()||{}),repays=Object.values(r.val()||{});let score=50;score+=Math.min(20,apps.filter(x=>x.status==='Approved').length*5);score+=Math.min(20,repays.filter(x=>x.status==='Approved').length*5);score-=Math.min(20,apps.filter(x=>x.status==='Rejected').length*3);score=Math.max(0,Math.min(100,score));box.innerHTML=`<div style="font-size:38px;font-weight:800;color:var(--dark)">${score}/100</div><b>App Activity Estimate</b><p class="small">Application records: ${apps.length} · Repayment requests: ${repays.length}</p><p class="small">শুধু অ্যাপের রেকর্ড থেকে তৈরি একটি সাধারণ অনুমান। এটি প্রকৃত credit score নয়।</p>`;}catch(e){box.textContent='তথ্য পাওয়া যায়নি: '+e.message;}}
+function renderMembership(){if(!currentUser)return;const name=document.getElementById('profileName')?.value?.trim()||currentUser.email||'Member';document.getElementById('memberName').textContent=name;document.getElementById('memberId').textContent='Member ID: NLC-'+currentUser.uid.slice(-8).toUpperCase();}
+document.getElementById('printMember').onclick=()=>{const card=document.getElementById('memberCard').innerHTML,w=window.open('','_blank','width=500,height=400');if(!w){alert('Print window খুলতে অনুমতি দাও।');return;}w.document.write('<html><head><title>Membership Card</title><style>body{font-family:Arial;padding:24px}#card{max-width:440px}</style></head><body><div id="card">'+card+'</div><script>window.onload=()=>window.print()<\/script></body></html>');w.document.close();};
+function renderTxFilter(){const out=document.getElementById('txFiltered');if(!out)return;const q=(document.getElementById('txSearch').value||'').toLowerCase(),st=document.getElementById('txStatus').value;const list=Object.entries(walletRequestsCache||{}).map(([id,x])=>({id,...x})).filter(x=>(st==='all'||(x.status||'Pending')===st)&&[x.type,x.method,x.network,x.amount,x.status].join(' ').toLowerCase().includes(q)).sort((a,b)=>(Number(b.createdAt)||0)-(Number(a.createdAt)||0));out.innerHTML=list.length?list.map(x=>`<div class="application"><b>${safe((x.type||'Transaction').replaceAll('-',' ').toUpperCase())}</b><p>৳${safe(x.amount||0)} · ${safe(x.method||x.network||'—')}</p><p>Status: ${safe(x.status||'Pending')} · ${safe(fmtDate(x.createdAt))}</p></div>`).join(''):'<div class="empty">কোনো মিল পাওয়া যায়নি।</div>';}
+document.getElementById('txSearch').addEventListener('input',renderTxFilter);document.getElementById('txStatus').addEventListener('change',renderTxFilter);
+const themePresets={blue:['#4b9fe3','#2677bd','#fff0f6'],pink:['#ed8fb6','#c85c8c','#fff0f6'],purple:['#9b8be8','#6e5bc2','#f1edff'],green:['#58b99a','#25856a','#eaf8f2']};function applyTheme(name){const t=themePresets[name]||themePresets.blue;document.documentElement.style.setProperty('--blue',t[0]);document.documentElement.style.setProperty('--dark',t[1]);document.documentElement.style.setProperty('--pink-light',t[2]);localStorage.setItem('nishanTheme',name);document.getElementById('themeStatus').textContent='Theme applied: '+name;}
+document.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>applyTheme(b.dataset.theme));
+// Keep transaction filter synchronized with the live wallet-request listener.
+const _loadWalletRequestsForFilters=loadWalletRequests;loadWalletRequests=function(uid){_loadWalletRequestsForFilters(uid);db.ref('walletRequests/'+uid).on('value',()=>renderTxFilter());};
+// Support thread uses the existing per-user support inbox path.
+function loadChatThread(uid){db.ref('supportMessages/'+uid).on('value',snap=>{const d=snap.val()||{},arr=Object.entries(d).map(([id,x])=>({id,...x})).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));const el=document.getElementById('chatThread');el.innerHTML=arr.length?arr.map(x=>`<div class="application"><b>${safe(x.sender==='admin'?'Admin':'You')} · ${safe(x.topic||'Support')}</b><p>${safe(x.message||'')}</p><p class="small">${safe(fmtDate(x.createdAt))}</p></div>`).join(''):'<div class="empty">এখনো কোনো মেসেজ নেই।</div>';});}
+document.getElementById('sendChat').onclick=async function(){const message=document.getElementById('chatText').value.trim(),out=document.getElementById('chatStatus');if(!currentUser||!message){out.textContent='একটি মেসেজ লিখো।';return;}this.disabled=true;try{await db.ref('supportMessages/'+currentUser.uid).push({topic:'Live Support Chat',message,sender:'user',status:'Open',createdAt:Date.now(),email:currentUser.email||''});document.getElementById('chatText').value='';out.textContent='মেসেজ Support inbox-এ পাঠানো হয়েছে।';}catch(e){out.textContent='পাঠানো যায়নি: '+e.message;}finally{this.disabled=false;}};
+const _openAppAfterPinMore=openAppAfterPin;openAppAfterPin=function(user){_openAppAfterPinMore(user);renderSavings();renderActivityScore();renderMembership();loadChatThread(user.uid);renderTxFilter();const savedTheme=localStorage.getItem('nishanTheme');if(savedTheme)applyTheme(savedTheme);};
+
+// A short branded intro before the app/login screen.
+(function(){const splash=document.createElement('div');splash.id='nishanSplash';splash.style.cssText='position:fixed;inset:0;z-index:10000;background:linear-gradient(135deg,#72bff0,#f19fc3);display:flex;align-items:center;justify-content:center;color:white;font-family:Arial;text-align:center;';splash.innerHTML='<div style="animation:nishanPop .75s ease both"><div style="width:92px;height:92px;border-radius:28px;background:#ffffff33;border:2px solid #ffffffaa;display:grid;place-items:center;font-size:52px;font-weight:900;margin:auto;box-shadow:0 12px 35px #245b8844">N</div><h2 style="margin:18px 0 5px">Nishan Loan App</h2><p style="margin:0;opacity:.9">Welcome</p><div style="width:130px;height:4px;background:#ffffff55;border-radius:8px;margin:22px auto;overflow:hidden"><div style="height:100%;width:45%;background:white;animation:nishanLoad 1.1s ease forwards"></div></div></div>';document.body.appendChild(splash);const st=document.createElement('style');st.textContent='@keyframes nishanPop{from{opacity:0;transform:translateY(18px) scale(.88)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes nishanLoad{to{width:100%}}';document.head.appendChild(st);setTimeout(()=>splash.remove(),1300);})();
+
+</script>
 </body>
 </html>
